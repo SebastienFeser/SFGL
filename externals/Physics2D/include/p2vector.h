@@ -54,7 +54,7 @@ struct p2Vec2
 	/**
 	* \brief Calculate the magnitude of the p2Vec2
 	*/
-	float GetMagnitude();
+	float GetMagnitude() const;
 	/**
 	* \brief Calculate a normalized version of the p2Vec2
 	*/
@@ -104,7 +104,7 @@ struct p2Vec3
 	/**
 	* \brief Calculate the magnitude of the p2Vec2
 	*/
-	float GetMagnitude();
+	float GetMagnitude() const;
 	/**
 	* \brief Calculate a normalized version of the p2Vec2
 	*/

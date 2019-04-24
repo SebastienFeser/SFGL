@@ -109,7 +109,10 @@ p2Vec2 p2Vec2::Rotate(float angle) const
 
 p2Vec2 p2Vec2::Lerp(const p2Vec2& v1, const p2Vec2& v2, float t)
 {
-	return p2Vec2();
+	p2Vec2 origin = v1;
+	p2Vec2 destination = p2Vec2(v2.x - v1.x, v2.y - v1.y);
+
+	return origin + destination * t;
 }
 
 float p2Vec2::AngleBetween(const p2Vec2& v1, const p2Vec2& v2)
@@ -187,7 +190,10 @@ p2Vec3 p2Vec3::Rotate(float angle) const
 
 p2Vec3 p2Vec3::Lerp(const p2Vec3& v1, const p2Vec3& v2, float t)
 {
-	return p2Vec3();
+	p2Vec3 origin = v1;
+	p2Vec3 destination = p2Vec3(v2.x - v1.x, v2.y - v1.y, v2.z - v1.z);
+
+	return origin + destination * t;
 }
 
 float p2Vec3::AngleBetween(const p2Vec3& v1, const p2Vec3& v2)
