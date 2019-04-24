@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 #include <p2vector.h>
-#include <cmath>
+#include <math.h>
 
 p2Vec2::p2Vec2()
 {
@@ -73,7 +73,7 @@ p2Vec2 p2Vec2::operator*(float f)
 float p2Vec2::Dot(p2Vec2 v1, p2Vec2 v2)
 {
 	//TODO
-	return 0.0f;
+	return (v1.x * v2.x) + (v1.y * v2.y);
 }
 p2Vec3 p2Vec2::Cross(p2Vec2 v1, p2Vec2 v2)
 {
@@ -82,18 +82,23 @@ p2Vec3 p2Vec2::Cross(p2Vec2 v1, p2Vec2 v2)
 float p2Vec2::GetMagnitude()
 {
 	//TODO
-	return 0.0f;
+	return sqrt(pow(x, 2) + pow(y, 2));
 }
 
 p2Vec2 p2Vec2::Normalized()
 {
 	//TODO
-	return p2Vec2();
+	float magnitude = GetMagnitude();
+	return p2Vec2(x / magnitude, y / magnitude);
 }
 
 void p2Vec2::NormalizeSelf()
 {
 	//TODO
+	float magnitude = GetMagnitude();
+
+	x = x / magnitude;
+	y = y / magnitude;
 }
 
 p2Vec2 p2Vec2::Rotate(float angle) const
@@ -165,13 +170,13 @@ p2Vec3 p2Vec3::operator*(float f)
 float p2Vec3::Dot(p2Vec3 v1, p2Vec3 v2)
 {
 	//TODO
-	return 0.0f;
+	return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
 }
 
 p2Vec3 p2Vec3::Cross(p2Vec3 v1, p2Vec3 v2)
 {
 	//TODO
-	return p2Vec3();
+	return p2Vec3((v1.y * v2.z) - (v2.y * v1.z), (v1.z * v2.x) - (v2.z * v1.x), (v1.x * v2.y) - (v2.x * v1.y));
 }
 
 p2Vec3 p2Vec3::Rotate(float angle) const
