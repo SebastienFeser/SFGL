@@ -56,6 +56,7 @@ p2Collider * p2Body::CreateCollider(p2ColliderDef * colliderDef)
 
 void p2Body::ApplyForceToCenter(const p2Vec2& force)
 {
+	linearVelocity += force;
 }
 
 p2BodyType p2Body::GetType() const
