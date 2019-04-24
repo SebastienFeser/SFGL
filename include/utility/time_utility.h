@@ -28,49 +28,19 @@
 namespace sfge
 {
 
-/**
-* \brief Timer utility class used to measure time
-*/
 class Timer
 {
 public:
 	Timer(float time, float period);
-	/**
-	* \brief Called each frame to lower the m_Time amount
-	*/
 	void Update(float dt);
-	/**
-	* \brief Check if the Timer is over 
-	*/
 	bool IsOver();
-	/**
-	* \brief Reset the m_Time to the value of the m_Period
-	*/
 	void Reset();
 
-	/**
-	* \brief Return the ratio between 0.0 and 1.0 of the current time
-	*/
-	float GetCurrent();
-	/**
-	* \brief Return the current time since the timer started
-	*/
-	float GetCurrentTime();
-	/**
-	* Getter of the period
-	*/
+	float GetCurrentRatio();
+	float GetTimeFromStart() const;
 	float GetPeriod() const;
-	/**
-	* Setter of the period
-	*/
 	void SetPeriod(float period);
-	/**
-	* \brief Getter of the time
-	*/
 	float GetTime() const;
-	/**
-	* \brief Setter of the time
-	*/
 	void SetTime(float time);
 
 

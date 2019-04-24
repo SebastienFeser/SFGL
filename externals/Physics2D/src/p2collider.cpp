@@ -9,3 +9,8 @@ void * p2Collider::GetUserData()
 {
 	return nullptr;
 }
+
+void p2Collider::SetUserData(void* colliderData)
+{
+	userData = colliderData;
+}

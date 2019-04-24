@@ -27,14 +27,13 @@
 #include <pybind11/embed.h>// everything needed for embedding
 namespace py = pybind11;
 
-/**
-* \brief Import a python script at a given path
-*/
+#include <string>
+
+namespace sfge
+{
 py::object import(const std::string& module, const std::string& path, py::object& globals);
 
-/**
-* \brief Translate the module name of the python script into a Component name
-*/
-std::string module2component(std::string& module_name);
+std::string module2class(const std::string& module_name);
 
+}
 #endif

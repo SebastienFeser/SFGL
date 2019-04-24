@@ -23,55 +23,69 @@ SOFTWARE.
 */
 
 #ifndef SFGE_BODY2D_H
-#define SFGE_BODY2D_G
+#define SFGE_BODY2D_H
 
-#include <engine/log.h>
 #include <engine/component.h>
-#include <utility/json_utility.h>
-
-#include <p2body.h>
+#include <engine/transform2d.h>
+#include <editor/editor.h>
+#include "p2body.h"
+#include "p2world.h"
 
 namespace sfge
 {
-class Collider;
 
-/**
-* \brief Rigidbody Component
-*/
-class Body2d : public Component
+class Body2d: public Offsetable
 {
 public:
-	using Component::Component;
-	/**
-	* \brief Initialisation of the Component
-	*/
-	void Init() override;
-	/**
-	* \brief Callled every frame, update the Transform of the parent GameObject
-	*/
-	void Update(float dt) override;
-	/**
-	* \brief Getter of the Physics2D body
-	* \return the Physics2D of the the Body2d Component
-	*/
-	p2Body* GetBody();
+	Body2d();
+	Body2d(Transform2d *transform, Vec2f offset);
 
-	
-
-
-	void SetVelocity(p2Vec2 v);
-	p2Vec2 GetVelocity();
-
-
-	/**
-	* \brief Factory method that creates a Body2d Component
-	* \return Body2d ptr that will be attached to the GameObject and will be destroyed by the PhysicsManager
-	*/
-	static Body2d* LoadBody2d(Engine& engine, GameObject* gameObject, json& componentJson);
-protected:
+	p2Vec2 GetLinearVelocity() const;
+	void SetLinearVelocity(p2Vec2 velocity);
+	void ApplyForce(p2Vec2 force);
+	p2BodyType GetType();
+	float GetMass();
+	void SetBody(p2Body* body);
+	p2Body* GetBody() const;
+private:
 	p2Body * m_Body = nullptr;
-	std::list<Collider*> m_Colliders;
 };
+
+class BodyManager;
+
+namespace editor
+{
+struct Body2dInfo : ComponentInfo
+{
+	void DrawOnInspector() override;
+	void AddVelocity(p2Vec2 velocity);
+	std::deque<p2Vec2>& GetVelocities();
+
+	Body2dManager* bodyManager = nullptr;
+private:
+	std::deque<p2Vec2> m_Velocities;
+	const size_t m_VelocitiesMaxSize = 120;
+};
+}
+
+class Body2dManager : public SingleComponentManager<Body2d, editor::Body2dInfo, ComponentType::BODY2D>
+{
+public:
+	using SingleComponentManager::SingleComponentManager;
+	void OnEngineInit() override;
+	void OnFixedUpdate() override;
+	Body2d* AddComponent(Entity entity) override;
+	void CreateComponent(json& componentJson, Entity entity) override;
+	void DestroyComponent(Entity entity) override;
+
+	void OnResize(size_t new_size) override;
+
+private:
+	Transform2dManager* m_Transform2dManager;
+	std::weak_ptr<p2World> m_WorldPtr;
+};
+
+
 
 }
 

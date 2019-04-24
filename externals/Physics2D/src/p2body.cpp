@@ -23,26 +23,47 @@ SOFTWARE.
 */
 #include <p2body.h>
 
-p2Vec2 p2Body::GetLinearVelocity()
+void p2Body::Init(p2BodyDef* bodyDef)
 {
-	return p2Vec2();
+	m_Colliders.resize(MAX_COLLIDER_LEN);
+}
+
+p2Vec2 p2Body::GetLinearVelocity() const
+{
+	return linearVelocity;
 }
 
 void p2Body::SetLinearVelocity(p2Vec2 velocity)
 {
-
+	linearVelocity = velocity;
 }
 float p2Body::GetAngularVelocity()
 {
-	return 0.0f;
+	return angularVelocity;
 }
 
 p2Vec2 p2Body::GetPosition()
 {
-	return p2Vec2();
+	return position;
 }
 
 p2Collider * p2Body::CreateCollider(p2ColliderDef * colliderDef)
 {
-	return nullptr;
+	p2Collider& collider = m_Colliders[m_ColliderIndex];
+	m_ColliderIndex++;
+	return &collider;
+}
+
+void p2Body::ApplyForceToCenter(const p2Vec2& force)
+{
+}
+
+p2BodyType p2Body::GetType() const
+{
+	return p2BodyType::STATIC;
+}
+
+float p2Body::GetMass() const
+{
+	return 0.0f;
 }

@@ -24,8 +24,9 @@ SOFTWARE.
 #include <p2world.h>
 
 
-p2World::p2World(p2Vec2 gravity)
+p2World::p2World(p2Vec2 gravity): m_Gravity(gravity)
 {
+	m_Bodies.resize(MAX_BODY_LEN);
 }
 
 void p2World::Step(float dt)
@@ -34,7 +35,10 @@ void p2World::Step(float dt)
 
 p2Body * p2World::CreateBody(p2BodyDef* bodyDef)
 {
-	return nullptr;
+	p2Body& body = m_Bodies[m_BodyIndex];
+	body.Init(bodyDef);
+	m_BodyIndex++;
+	return &body;
 }
 
 void p2World::SetContactListener(p2ContactListener * contactListener)

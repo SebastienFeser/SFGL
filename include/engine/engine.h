@@ -25,56 +25,55 @@ SOFTWARE.
 #ifndef SFGE_ENGINE_H
 #define SFGE_ENGINE_H
 
-#include <SFML/Graphics/RenderWindow.hpp>
+
 
 #include <memory>
-#include <array>
+#include <string>
+#include <ctpl_stl.h>
 
 #include <engine/config.h>
-#include <utility/singleton.h>
+#include <utility/json_utility.h>
 
+#include <editor/profiler.h>
+#include <Remotery.h>
 
-
+#include <SFML/System/Clock.hpp>
+namespace sf
+{
+class RenderWindow;
+}
 namespace sfge
 {
 
 /**
 * Prototypes declarations
 */
-class Module;
-class GraphicsManager;
-class AudioManager;
-class PythonManager;
-class InputManager;
-class SceneManager;
-class SpriteManager;
-class TextureManager;
-class PhysicsManager;
-class Editor;
 
-enum class EngineModule
-{
-	GRAPHICS_MANAGER,
-	AUDIO_MANAGER,
-	INPUT_MANAGER,
-	PYTHON_MANAGER,
-	SCENE_MANAGER,
-	EDITOR,
-	PHYSICS_MANAGER,
-	LENGTH
-};
+struct Configuration;
+class Graphics2dManager;
+class AudioManager;
+class SceneManager;
+class InputManager;
+class PythonEngine;
+class Physics2dManager;
+class EntityManager;
+class Transform2dManager;
+class Editor;
+struct SystemsContainer;
 
 /**
-* \brief The main Engine class to centralise the frame process and the references
+* \brief The main Engine class to centralize the frame process and the references
 */
 class Engine
 {
 public:
-
+	Engine();
 	/**
 	* \brief Initialize all the modules of the Game Engine, reading the config file too
 	*/
-	void Init(bool windowless=false, bool editor=false);
+	void Init(std::string configFilename="data/config.json");
+	void Init(json& configJson);
+	void Init(std::unique_ptr<Configuration> config);
 	/**
 	* \brief Starting the Game Engine after the Init()
 	*/
@@ -84,12 +83,9 @@ public:
 	 * \brief Destroy all the modules
 	 */
 	void Destroy();
+	void Clear();
 	/**
-	* \brief Reset all the modules before loading a new Scene
-	*/
-	void Reset();
-	/**
-	* \brief Collect all the unused assets at the end of the loading frame
+	* \brief Reload is used after loading a new scene
 	*/
 	void Collect();
 
@@ -98,68 +94,38 @@ public:
 	* \brief A getter of the Configuration
 	* \return The Configuration struct got by the Engine
 	*/
-	std::shared_ptr<Configuration> GetConfig();
-	
-	GraphicsManager* GetGraphicsManager();
+	Configuration * GetConfig() const;
+
+	Graphics2dManager* GetGraphics2dManager();
 	AudioManager* GetAudioManager();
 	SceneManager* GetSceneManager();
 	InputManager* GetInputManager();
-	PythonManager* GetPythonManager();
-	PhysicsManager* GetPhysicsManager();
+	PythonEngine* GetPythonEngine();
+	Physics2dManager* GetPhysicsManager();
+	EntityManager* GetEntityManager();
+	Transform2dManager* GetTransform2dManager();
+	Editor* GetEditor();
 
+	ctpl::thread_pool& GetThreadPool();
+	ProfilerFrameData& GetProfilerFrameData();
+	float GetTimeSinceInit();
+	float GetDeltaTime();
 	bool running = false;
 protected:
-	std::shared_ptr<sf::RenderWindow> m_Window = nullptr;
-	std::shared_ptr<Configuration> m_Config = nullptr;
-	
-	//module
-	GraphicsManager* m_GraphicsManager;
-	AudioManager* m_AudioManager;
-	SceneManager* m_SceneManager;
-	InputManager* m_InputManager;
-	PythonManager* m_PythonManager;
-	PhysicsManager* m_PhysicsManager;
-	Editor* m_Editor;
+	void InitModules();
+	ctpl::thread_pool m_ThreadPool;
+	sf::RenderWindow* m_Window = nullptr;
+	std::unique_ptr<Configuration> m_Config;
+	float m_DeltaTime = 0.0f;
+	sf::Clock m_EngineClock;
+	Remotery* rmt;
+	//
+	std::unique_ptr<SystemsContainer> m_SystemsContainer;
+
+  	ProfilerFrameData m_FrameData;
+
 };
 
-/**
-* \brief Module are classes used by the Engine to init and update features
-*/
-class Module
-{
-public:
-	Module(Engine& engine, bool enable);
-
-	virtual ~Module() {};
-	/**
-	* \brief Called to initialize the module
-	*/
-	virtual void Init() = 0;
-	/**
-	* \brief Called every frame to update the module
-	* \param dt The delta time since last frame
-	*/
-	virtual void Update(sf::Time dt) = 0;
-	/**
-	* \brief Used instead of the destructor to delete all heap created structure and finalize
-	*/
-	virtual void Destroy() = 0;
-	/**
-	* \brief Called before we load a scene
-	*/
-	virtual void Reset() = 0;
-	/**
-	* \brief Called after we load a scene
-	*/
-	virtual void Collect() = 0;
-
-	void SetEnable(bool enable);
-	bool GetEnable();
-
-protected:
-	bool m_Enable = true;
-	Engine& m_Engine;
-};
 
 }
 

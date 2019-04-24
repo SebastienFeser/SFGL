@@ -46,4 +46,12 @@ public:
 	virtual void BeginContact(p2Contact* contact) = 0;
 	virtual void EndContact(p2Contact* contact) = 0;
 };
+
+/**
+* \brief Managing the creation and destruction of contact between colliders
+*/
+class p2ContactManager
+{
+
+};
 #endif

@@ -36,7 +36,7 @@ class p2Shape
 };
 
 /**
-* \brief Representation of a circle
+* \brief Representation of a physics circle
 */
 class p2CircleShape : public p2Shape
 {
@@ -58,6 +58,11 @@ public:
 	void SetSize(p2Vec2 size);
 private:
 	p2Vec2 m_Size;
+};
+
+class p2PolygonShape : public p2Shape
+{
+	
 };
 
 #endif

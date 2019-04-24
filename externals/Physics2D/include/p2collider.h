@@ -27,6 +27,7 @@ SOFTWARE.
 #define SFGE_P2COLLIDER_H
 
 #include <p2shape.h>
+#include "engine/entity.h"
 
 /**
 * \brief Struct defining a p2Collider when creating one
@@ -54,8 +55,10 @@ public:
 	* \brief Return the userData
 	*/
 	void* GetUserData();
+	void GetShape();
+	void SetUserData(void* colliderData);
 private:
-	void* userData;
+	void* userData = nullptr;
 };
 
 
