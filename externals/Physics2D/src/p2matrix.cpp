@@ -56,8 +56,8 @@ p2Mat22 p2Mat22::operator*(p2Mat22 m1)
 	p2Vec2 c1 = p2Vec2(m1.rows[0].x, m1.rows[0].y);
 	p2Vec2 c2 = p2Vec2(m1.rows[1].x, m1.rows[1].y);
 
-	p2Vec2 result1 = p2Vec2(p2Vec2().Dot(r1, c1), p2Vec2().Dot(r1, c2));
-	p2Vec2 result2 = p2Vec2(p2Vec2().Dot(r2, c1), p2Vec2().Dot(r2, c2));
+	p2Vec2 result1 = p2Vec2(p2Vec2::Dot(r1, c1), p2Vec2::Dot(r1, c2));
+	p2Vec2 result2 = p2Vec2(p2Vec2::Dot(r2, c1), p2Vec2::Dot(r2, c2));
 
 	return p2Mat22(result1, result2);
 }
@@ -85,12 +85,15 @@ p2Mat22 p2Mat22::operator/(float f)
 
 p2Mat22 p2Mat22::Invert()
 {
-	return p2Mat22();
+	p2Vec2 r1 = p2Vec2(rows[1].y, -rows[0].y);
+	p2Vec2 r2 = p2Vec2(-rows[1].x, rows[0].x);
+
+	return p2Mat22(r1, r2) * (1 / this->GetDeterminant());
 }
 
 float p2Mat22::GetDeterminant()
 {
-	return 0.0f;
+	return (rows[0].x * rows[1].y) - (rows[0].y * rows[1].x);
 }
 
 p2Mat33::p2Mat33()
@@ -130,9 +133,9 @@ p2Mat33 p2Mat33::operator*(p2Mat33 m1)
 	p2Vec3 c2 = p2Vec3(m1.rows[1].x, m1.rows[1].y, m1.rows[1].z);
 	p2Vec3 c3 = p2Vec3(m1.rows[2].x, m1.rows[2].y, m1.rows[2].z);
 
-	p2Vec3 result1 = p2Vec3(p2Vec3().Dot(r1, c1), p2Vec3().Dot(r1, c2), p2Vec3().Dot(r1, c3));
-	p2Vec3 result2 = p2Vec3(p2Vec3().Dot(r2, c1), p2Vec3().Dot(r2, c2), p2Vec3().Dot(r2, c3));
-	p2Vec3 result3 = p2Vec3(p2Vec3().Dot(r3, c1), p2Vec3().Dot(r3, c2), p2Vec3().Dot(r3, c3));
+	p2Vec3 result1 = p2Vec3(p2Vec3::Dot(r1, c1), p2Vec3::Dot(r1, c2), p2Vec3::Dot(r1, c3));
+	p2Vec3 result2 = p2Vec3(p2Vec3::Dot(r2, c1), p2Vec3::Dot(r2, c2), p2Vec3::Dot(r2, c3));
+	p2Vec3 result3 = p2Vec3(p2Vec3::Dot(r3, c1), p2Vec3::Dot(r3, c2), p2Vec3::Dot(r3, c3));
 
 	return p2Mat33(result1, result2, result3);
 }
@@ -163,10 +166,35 @@ p2Mat33 p2Mat33::operator/(float f)
 
 p2Mat33 p2Mat33::Invert()
 {
-	return p2Mat33();
+	// Calculate the rows of the minors matrix
+	p2Vec3 minorR1 = p2Vec3((rows[1].y * rows[2].z) - (rows[1].z * rows[2].y), (rows[1].x * rows[2].z) - (rows[1].z * rows[2].x), (rows[1].x * rows[2].y) - (rows[1].y * rows[2].x));
+	p2Vec3 minorR2 = p2Vec3((rows[0].y * rows[2].z) - (rows[0].z * rows[2].y), (rows[0].x * rows[2].z) - (rows[0].z * rows[2].x), (rows[0].x * rows[2].y) - (rows[0].y * rows[2].x));
+	p2Vec3 minorR3 = p2Vec3((rows[0].y * rows[1].z) - (rows[0].z * rows[1].y), (rows[0].x * rows[1].z) - (rows[0].z * rows[1].x), (rows[0].x * rows[1].y) - (rows[0].y * rows[1].x));
+
+	// Modify rows of the minors matrix to translate it to the cofactors matrix
+	minorR1.y = -minorR1.y;
+	minorR2.x = -minorR2.x;
+	minorR2.z = -minorR2.z;
+	minorR3.y = -minorR3.y;
+
+	// Create the 3x3 matrix
+	p2Mat33 result = p2Mat33(minorR1, minorR2, minorR3);
+
+	// Transpose the matrix
+	result.rows[0].y = minorR2.x;
+	result.rows[0].z = minorR3.x;
+	result.rows[1].x = minorR1.y;
+	result.rows[1].z = minorR3.y;
+	result.rows[2].x = minorR1.z;
+	result.rows[2].y = minorR2.z;
+
+	return result * (1 / GetDeterminant());
 }
 
 float p2Mat33::GetDeterminant()
 {
-	return 0.0f;
+	float result1 = rows[0].x * ((rows[1].y * rows[2].z) - (rows[1].z * rows[2].y));
+	float result2 = rows[0].y * ((rows[1].x * rows[2].z) - (rows[1].z * rows[2].x));
+	float result3 = rows[0].z * ((rows[1].x * rows[2].y) - (rows[1].y * rows[2].x));
+	return result1 - result2 + result3;
 }
