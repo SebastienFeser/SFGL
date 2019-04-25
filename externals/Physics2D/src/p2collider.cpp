@@ -1,13 +1,23 @@
 #include "..\include\p2collider.h"
 
-bool p2Collider::IsSensor()
+p2Collider::p2Collider(p2ColliderDef colDef)
 {
-	return false;
+	colliderDefinition = colDef;
 }
 
-void * p2Collider::GetUserData()
+bool p2Collider::IsSensor() const
 {
-	return nullptr;
+	return colliderDefinition.isSensor;
+}
+
+void * p2Collider::GetUserData() const
+{
+	return userData;
+}
+
+p2Shape* p2Collider::GetShape() const
+{
+	return colliderDefinition.shape;
 }
 
 void p2Collider::SetUserData(void* colliderData)

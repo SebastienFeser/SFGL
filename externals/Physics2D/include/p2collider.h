@@ -37,7 +37,7 @@ struct p2ColliderDef
 	void* userData;
 	p2Shape* shape;
 	float restitution;
-	bool isSensor;
+	bool isSensor = false;
 };
 
 /**
@@ -47,18 +47,20 @@ struct p2ColliderDef
 class p2Collider
 {
 public:
+	p2Collider(p2ColliderDef colDef);
 	/**
 	* \brief Check if the p2Collider is a sensor
 	*/
-	bool IsSensor();
+	bool IsSensor() const;
 	/**
 	* \brief Return the userData
 	*/
-	void* GetUserData();
-	void GetShape();
+	void* GetUserData() const;
+	p2Shape* GetShape() const;
 	void SetUserData(void* colliderData);
 private:
 	void* userData = nullptr;
+	p2ColliderDef colliderDefinition;
 };
 
 
