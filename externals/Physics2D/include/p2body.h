@@ -74,6 +74,7 @@ public:
 	*/
 	p2Collider* CreateCollider(p2ColliderDef* colliderDef);
 	void ApplyForceToCenter(const p2Vec2& force);
+	void SetPosition(const p2Vec2 position);
 	p2BodyType GetType() const;
 	float GetMass() const;
 private:

@@ -29,6 +29,7 @@ p2CircleShape::p2CircleShape(float radius) : p2Shape()
 	type = ShapeType::CIRCLE;
 	m_Radius = radius;
 }
+
 void p2CircleShape::SetRadius(float radius)
 {
 	m_Radius = radius;

@@ -42,6 +42,6 @@ struct p2AABB
 	/**
 	* \brief Calculate the extends and return it
 	*/
-	p2Vec2 GetExtends();
+	p2Vec2 GetExtends() const;
 };
 #endif // !SFGE_P2AABB:H
