@@ -27,6 +27,8 @@ SOFTWARE.
 
 p2Vec2::p2Vec2()
 {
+	x = 1.0f;
+	y = 1.0f;
 }
 
 p2Vec2::p2Vec2(float x, float y)
@@ -79,27 +81,32 @@ p2Vec2 p2Vec2::operator*(float f) const
 float p2Vec2::Dot(p2Vec2 v1, p2Vec2 v2)
 {
 	//TODO
-	return 0.0f;
+	return (v1.x * v2.x) + (v1.y * v2.y);
 }
-p2Vec3 p2Vec2::Cross(p2Vec2 v1, p2Vec2 v2)
+float p2Vec2::Cross(p2Vec2 v1, p2Vec2 v2)
 {
-	return p2Vec3();
+	return (v1.x * v2.y) - (v2.x * v2.y);
 }
-float p2Vec2::GetMagnitude()
+float p2Vec2::GetMagnitude() const
 {
 	//TODO
-	return 0.0f;
+	return sqrt(pow(x, 2) + pow(y, 2));
 }
 
 p2Vec2 p2Vec2::Normalized()
 {
 	//TODO
-	return p2Vec2();
+	float magnitude = GetMagnitude();
+	return p2Vec2(x / magnitude, y / magnitude);
 }
 
 void p2Vec2::NormalizeSelf()
 {
 	//TODO
+	float magnitude = GetMagnitude();
+
+	x = x / magnitude;
+	y = y / magnitude;
 }
 
 p2Vec2 p2Vec2::Rotate(float angle) const
@@ -109,12 +116,15 @@ p2Vec2 p2Vec2::Rotate(float angle) const
 
 p2Vec2 p2Vec2::Lerp(const p2Vec2& v1, const p2Vec2& v2, float t)
 {
-	return p2Vec2();
+	p2Vec2 origin = v1;
+	p2Vec2 target = v2;
+
+	return origin + target * t;
 }
 
 float p2Vec2::AngleBetween(const p2Vec2& v1, const p2Vec2& v2)
 {
-	return 0.0f;
+	return acos(Dot(v1, v2) / (v1.GetMagnitude() * v2.GetMagnitude()));
 }
 
 p2Vec3 p2Vec2::to3()
@@ -124,6 +134,9 @@ p2Vec3 p2Vec2::to3()
 
 p2Vec3::p2Vec3()
 {
+	x = 1.0f;
+	y = 1.0f;
+	z = 1.0f;
 }
 
 p2Vec3::p2Vec3(float x, float y, float z)
@@ -135,7 +148,7 @@ p2Vec3::p2Vec3(float x, float y, float z)
 
 p2Vec3 p2Vec3::operator+(const p2Vec3& v)const
 {
-	return p2Vec3(x + v.x, y + v.y, z + v.z);
+	return {x + v.x, y + v.y, z + v.z};
 }
 
 p2Vec3& p2Vec3::operator+=(const p2Vec3& v)
@@ -148,7 +161,7 @@ p2Vec3& p2Vec3::operator+=(const p2Vec3& v)
 
 p2Vec3 p2Vec3::operator-(const p2Vec3& v) const
 {
-	return p2Vec3(x - v.x, y - v.y, z- v.z);
+	return {x - v.x, y - v.y, z- v.z};
 }
 
 p2Vec3& p2Vec3::operator-=(const p2Vec3& v)
@@ -169,24 +182,24 @@ p2Vec3& p2Vec3::operator*=(float f)
 
 p2Vec3 p2Vec3::operator/(float f) const
 {
-	return p2Vec3(x / f, y / f, z/f);
+	return {x / f, y / f, z/f};
 }
 
 p2Vec3 p2Vec3::operator*(float f) const
 {
-	return p2Vec3(x*f, y*f, z*f);
+	return {x*f, y*f, z*f};
 }
 
 float p2Vec3::Dot(p2Vec3 v1, p2Vec3 v2)
 {
 	//TODO
-	return 0.0f;
+	return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
 }
 
 p2Vec3 p2Vec3::Cross(p2Vec3 v1, p2Vec3 v2)
 {
 	//TODO
-	return p2Vec3();
+	return {(v1.y * v2.z) - (v2.y * v1.z), (v1.z * v2.x) - (v2.z * v1.x), (v1.x * v2.y) - (v2.x * v1.y)};
 }
 
 p2Vec3 p2Vec3::Rotate(float angle) const
@@ -196,24 +209,32 @@ p2Vec3 p2Vec3::Rotate(float angle) const
 
 p2Vec3 p2Vec3::Lerp(const p2Vec3& v1, const p2Vec3& v2, float t)
 {
-	return p2Vec3();
+	const p2Vec3 origin = v1;
+	const p2Vec3 target = v2;
+
+	return origin + target * t;
 }
 
 float p2Vec3::AngleBetween(const p2Vec3& v1, const p2Vec3& v2)
 {
-	return 0.0f;
+	return acos(Dot(v1, v2) / (v1.GetMagnitude() * v2.GetMagnitude()));
 }
 
-float p2Vec3::GetMagnitude()
+float p2Vec3::GetMagnitude() const
 {
-	return 0.0f;
+	return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 }
 
-p2Vec3 p2Vec3::Normalized()
+p2Vec3 p2Vec3::Normalized() const
 {
-	return p2Vec3();
+	const float magnitude = GetMagnitude();
+	return {x / magnitude, y / magnitude, z / magnitude};
 }
 
 void p2Vec3::NormalizeSelf()
 {
+	const float magnitude = GetMagnitude();
+	x /= magnitude;
+	y /= magnitude;
+	z /= magnitude;
 }

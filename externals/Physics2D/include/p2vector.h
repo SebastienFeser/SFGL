@@ -53,11 +53,11 @@ struct p2Vec2
 	/**
 	* \brief Cross product of two vectors
 	*/
-	static p2Vec3 Cross(p2Vec2 v1, p2Vec2 v2);
+	static float Cross(p2Vec2 v1, p2Vec2 v2);
 	/**
 	* \brief Calculate the magnitude of the p2Vec2
 	*/
-	float GetMagnitude();
+	float GetMagnitude() const;
 	/**
 	* \brief Calculate a normalized version of the p2Vec2
 	*/
@@ -86,6 +86,7 @@ struct p2Vec3
 	p2Vec3();
 	p2Vec3(float x, float y, float z);
 
+
 	p2Vec3 operator+(const p2Vec3& v) const;
 	p2Vec3& operator+=(const p2Vec3 & v);
 	p2Vec3 operator-(const p2Vec3& v) const;
@@ -107,11 +108,11 @@ struct p2Vec3
 	/**
 	* \brief Calculate the magnitude of the p2Vec2
 	*/
-	float GetMagnitude();
+	float GetMagnitude() const;
 	/**
 	* \brief Calculate a normalized version of the p2Vec2
 	*/
-	p2Vec3 Normalized();
+	p2Vec3 Normalized() const;
 	/**
 	* \brief Normalize the p2Vec2
 	*/

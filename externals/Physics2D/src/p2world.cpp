@@ -31,6 +31,22 @@ p2World::p2World(p2Vec2 gravity): m_Gravity(gravity)
 
 void p2World::Step(float dt)
 {
+	for (p2Body body : m_Bodies)
+	{
+		// Calculate forces
+		// TODO: Apply angular velocity
+		body.SetLinearVelocity(body.GetLinearVelocity());
+
+		// Apply acceleration
+		body.SetLinearVelocity(body.GetLinearVelocity() + m_Gravity * dt);
+
+		// Apply movement
+		body.SetPosition(body.GetPosition() + body.GetLinearVelocity() * dt);		
+	}
+
+	// Quadtree
+
+	// Check for collision
 }
 
 p2Body * p2World::CreateBody(p2BodyDef* bodyDef)
