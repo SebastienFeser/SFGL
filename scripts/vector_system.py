@@ -10,10 +10,12 @@ class VectorSystem(System):
     pu = p2Vec2()
     pv = p2Vec2()
 
+	#init is like start in Unity
     def init(self):
         self.t = 0.0
         self.rotation_speed = 45.0
 
+	#update is like update
     def update(self, dt):
         self.t += dt
 
@@ -23,8 +25,9 @@ class VectorSystem(System):
 
         self.pu = Physics2dManager.pixel2meter(self.u)
         self.pv = Physics2dManager.pixel2meter(self.v)
-        self.result = Physics2dManager.meter2pixel(self.pu * p2Vec2.dot(self.pu, self.pv)/p2Vec2.dot(self.pv, self.pv))
+        self.result = Physics2dManager.meter2pixel(self.pv.normalized())
 
+	#on_draw is used to draw the vectors
     def on_draw(self):
         # rotating vector
 

@@ -30,46 +30,52 @@ p2Mat22::p2Mat22()
 
 p2Mat22::p2Mat22(p2Vec2 r1, p2Vec2 r2)
 {
+	//This is to instantiate a matrice, not really sure about that now
+	this->rows[0] = r1;
+	this->rows[1] = r2;
 }
 
 p2Mat22 p2Mat22::operator+(p2Mat22 m1)
 {
-	return p2Mat22();
+	return p2Mat22(p2Vec2(rows[0].x + m1.rows[0].x, rows[0].y + m1.rows[0].y), p2Vec2(rows[1].x + m1.rows[1].x, rows[1].y + m1.rows[1].y));
 }
 
 p2Mat22 p2Mat22::operator-(p2Mat22 m1)
 {
-	return p2Mat22();
+	return p2Mat22(p2Vec2(rows[0].x - m1.rows[0].x, rows[0].y - m1.rows[0].y), p2Vec2(rows[1].x - m1.rows[1].x, rows[1].y - m1.rows[1].y));
 }
 
 p2Mat22 p2Mat22::operator*(p2Mat22 m1)
 {
-	return p2Mat22();
+	return p2Mat22(p2Vec2(rows[0].x * m1.rows[0].x + rows[0].y * m1.rows[1].x, rows[0].x*m1.rows[0].y + rows[0].y*m1.rows[1].y), p2Vec2(rows[1].x * m1.rows[0].x + rows[1].y * m1.rows[1].x, rows[1].x*m1.rows[0].y + rows[1].y*m1.rows[1].y));
 }
 
 p2Vec2 p2Mat22::operator*(p2Vec2 v)
 {
-	return p2Vec2();
+	return p2Vec2(rows[0].x * v.x + rows[0].x * v.y, rows[1].x * v.x + rows[1].x * v.y);
 }
 
 p2Mat22 p2Mat22::operator*(float f)
 {
-	return p2Mat22();
+	return p2Mat22(p2Vec2(rows[0].x * f, rows[0].y * f), p2Vec2(rows[1].x * f, rows[1].y * f));
 }
 
 p2Mat22 p2Mat22::operator/(float f)
 {
-	return p2Mat22();
+	return p2Mat22(p2Vec2 (rows[0].x / f, rows[0].y / f), p2Vec2(rows[1].x / f, rows[1].y * f));
 }
 
 p2Mat22 p2Mat22::Invert()
 {
-	return p2Mat22();
+	//TODO
+	//float multiplier(1 / (rows[0].x*rows[1].y - rows[0].y*rows[1].x));
+	return p2Mat22(p2Vec2(rows[1].y * (1/GetDeterminant()),-rows[0].y * (1 / GetDeterminant())),p2Vec2(-rows[1].x * (1 / GetDeterminant()),rows[0].x * (1 / GetDeterminant())));
 }
 
 float p2Mat22::GetDeterminant()
 {
-	return 0.0f;
+	
+	return rows[0].x*rows[1].y - rows[0].y*rows[1].x;
 }
 
 p2Mat33::p2Mat33()
@@ -82,40 +88,48 @@ p2Mat33::p2Mat33(p2Vec3 r1, p2Vec3 r2, p2Vec3 r3)
 
 p2Mat33 p2Mat33::operator+(p2Mat33 m1)
 {
-	return p2Mat33();
+	//TODO
+	return p2Mat33(p2Vec3(), p2Vec3(), p2Vec3());
 }
 
 p2Mat33 p2Mat33::operator-(p2Mat33 m1)
 {
-	return p2Mat33();
+	//TODO
+	return p2Mat33(p2Vec3(), p2Vec3(), p2Vec3());
 }
 
 p2Mat33 p2Mat33::operator*(p2Mat33 m1)
 {
-	return p2Mat33();
+	//TODO
+	return p2Mat33(p2Vec3(), p2Vec3(), p2Vec3());
 }
 
 p2Vec3 p2Mat33::operator*(p2Vec3)
 {
+	//TODO
 	return p2Vec3();
 }
 
 p2Mat33 p2Mat33::operator*(float f)
 {
-	return p2Mat33();
+	//TODO
+	return p2Mat33(p2Vec3(), p2Vec3(), p2Vec3());
 }
 
 p2Mat33 p2Mat33::operator/(float f)
 {
-	return p2Mat33();
+	//TODO
+	return p2Mat33(p2Vec3(), p2Vec3(), p2Vec3());
 }
 
 p2Mat33 p2Mat33::Invert()
 {
-	return p2Mat33();
+	//TODO
+	return p2Mat33(p2Vec3(), p2Vec3(), p2Vec3());
 }
 
 float p2Mat33::GetDeterminant()
 {
+	//TODO
 	return 0.0f;
 }
