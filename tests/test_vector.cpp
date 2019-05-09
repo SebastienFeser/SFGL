@@ -28,23 +28,23 @@ SOFTWARE.
 #include <utility/json_utility.h>
 #include <gtest/gtest.h>
 
-TEST(Physics, TestVector)
+TEST(Physics, TestVector) //TEST = Structure de donnée qui définit un test
 {
-    sfge::Engine engine;
-    std::unique_ptr<sfge::Configuration> initConfig = std::make_unique<sfge::Configuration>();
-    initConfig->gravity = p2Vec2(0,0);
+    sfge::Engine engine; //Creation d'une instance engine
+    std::unique_ptr<sfge::Configuration> initConfig = std::make_unique<sfge::Configuration>(); //Création d'un unique pointer initConfig (qui est un nouvel objet)
+    initConfig->gravity = p2Vec2(0,0); //On set les données du pointeur
     initConfig->devMode = false;
     initConfig->maxFramerate = 0;
-    engine.Init(std::move(initConfig));
+    engine.Init(std::move(initConfig)); //Appel une fonction init pour l'engine
     json sceneJson = {
             { "name", "Test Vector" }
-    };
+    }; //Création d'un nouvel object json, comme value "name", il a "Test Vector"
     json systemJson = {
             {"script_path", "scripts/vector_system.py"}
-    };
-    sceneJson["systems"] = json::array({ systemJson });
-    auto* sceneManager = engine.GetSceneManager();
-    sceneManager->LoadSceneFromJson(sceneJson);
+    }; //Création d'un nouveau json, il donne à "script_path", la valeur scripts/vector_system.py qui link au fichier python 
+    sceneJson["systems"] = json::array({ systemJson }); //Création d'un array de json pour lui donner toutes les données de system Json (en gros tous les scripts python)
+    auto* sceneManager = engine.GetSceneManager(); //Création d'un pointeur qui garde la valeur de engine.GetSceneManager
+    sceneManager->LoadSceneFromJson(sceneJson); //Donne la valeur de sceneJson à sceneManager
 
     engine.Start();
 }

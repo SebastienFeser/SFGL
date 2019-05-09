@@ -84,7 +84,7 @@ float p2Vec2::Dot(p2Vec2 v1, p2Vec2 v2)
 }
 float p2Vec2::Cross(p2Vec2 v1, p2Vec2 v2)
 {
-	return p2Vec3(0,0, v2.x*v1.y - v2.y*v1.x);
+	return (v2.x*v1.y - v2.y*v1.x);
 }
 float p2Vec2::GetMagnitude() const
 {
@@ -112,10 +112,9 @@ p2Vec2 p2Vec2::Rotate(float angle) const
 	return p2Vec2();
 }
 
-p2Vec2 p2Vec2::Lerp(const p2Vec2& v1, const p2Vec2& v2, float t)
+p2Vec2 p2Vec2::Lerp(const p2Vec2& origin, const p2Vec2& target, float t)
 {
-	//TODO (Eventually)
-	return p2Vec2();
+	return p2Vec2(origin + target * t);
 }
 
 float p2Vec2::AngleBetween(const p2Vec2& v1, const p2Vec2& v2)

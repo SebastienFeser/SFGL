@@ -81,6 +81,7 @@ private:
 	p2AABB aabb;
 	p2Vec2 position;
 	p2Vec2 linearVelocity;
+	p2BodyType type;
 	float angularVelocity;
 
 	int m_ColliderIndex = 0;

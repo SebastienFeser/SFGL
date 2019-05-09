@@ -26,22 +26,40 @@ SOFTWARE.
 
 p2World::p2World(p2Vec2 gravity): m_Gravity(gravity)
 {
+	this->m_Gravity = gravity;
 	m_Bodies.resize(MAX_BODY_LEN);
 }
 
 void p2World::Step(float dt)
 {
-	for (p2Body body : m_Bodies)
+	for (p2Body &body : m_Bodies)
 	{
 		// Calculate forces
+		
+		//Gravity
+		if (body.GetType() == p2BodyType::STATIC)
+		{
+		}
+		else if (body.GetType() == p2BodyType::KINEMATIC)
+		{
+			p2Vec2 bodyLinearVelocity = body.GetLinearVelocity();
+			body.SetPosition(body.GetPosition() + body.GetLinearVelocity());
+		}
+		else if (body.GetType() == p2BodyType::DYNAMIC)
+		{
+
+			p2Vec2 bodyLinearVelocity = body.GetLinearVelocity();
+			body.SetLinearVelocity(bodyLinearVelocity + (this->m_Gravity * dt));
+			body.SetPosition(body.GetPosition() + body.GetLinearVelocity());
+		}
 		// TODO: Apply angular velocity
-		body.SetLinearVelocity(body.GetLinearVelocity());
+		//body.SetLinearVelocity(body.GetLinearVelocity());
 
 		// Apply acceleration
-		body.SetLinearVelocity(body.GetLinearVelocity() + m_Gravity * dt);
+		//body.SetLinearVelocity(body.GetLinearVelocity() + m_Gravity * dt);
 
 		// Apply movement
-		body.SetPosition(body.GetPosition() + body.GetLinearVelocity() * dt);		
+		//body.SetPosition(body.GetPosition() + body.GetLinearVelocity() * dt);		
 	}
 
 	// Quadtree

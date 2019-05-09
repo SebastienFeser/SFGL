@@ -24,7 +24,11 @@ SOFTWARE.
 #include <p2body.h>
 
 void p2Body::Init(p2BodyDef* bodyDef)
-{
+{ 
+	//Set les variables
+	this->type = bodyDef->type;
+	this->position = bodyDef->position;
+	this->linearVelocity = bodyDef->linearVelocity;
 	m_Colliders.resize(MAX_COLLIDER_LEN);
 }
 
@@ -49,7 +53,8 @@ p2Vec2 p2Body::GetPosition()
 
 p2Collider * p2Body::CreateCollider(p2ColliderDef * colliderDef)
 {
-	p2Collider& collider = m_Colliders[m_ColliderIndex];
+	p2Collider & collider = m_Colliders[m_ColliderIndex];
+	collider = p2Collider(*colliderDef);
 	m_ColliderIndex++;
 	return &collider;
 }
@@ -66,10 +71,10 @@ void p2Body::SetPosition(const p2Vec2 position)
 
 p2BodyType p2Body::GetType() const
 {
-	return p2BodyType::STATIC;
+	return type;
 }
 
 float p2Body::GetMass() const
 {
-	return 0.0f;
+	return 1.0f;
 }
