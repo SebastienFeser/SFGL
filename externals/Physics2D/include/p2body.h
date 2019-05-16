@@ -65,7 +65,12 @@ public:
 	void SetLinearVelocity(p2Vec2 velocity);
 
 	float GetAngularVelocity();
-	
+
+	/**
+	* \brief Rebuild every frames the body AABB
+	*/
+	void RebuildAABB();
+
 	p2Vec2 GetPosition();
 	/**
 	* \brief Factory method creating a p2Collider

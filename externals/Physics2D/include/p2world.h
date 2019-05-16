@@ -28,6 +28,7 @@ SOFTWARE.
 #include <p2vector.h>
 #include <p2body.h>
 #include <p2contact.h>
+#include "p2quadtree.h"
 
 const size_t MAX_BODY_LEN = 256;
 
@@ -41,7 +42,8 @@ public:
 	/**
 	* \brief Simulate a new step of the physical world, simplify the resolution with a QuadTree, generate the new contacts
 	*/
-	void Step(float dt);
+	void 
+	Step(float dt);
 	/**
 	* \brief Factory method to create a new p2Body attached to the p2World
 	*/
@@ -52,6 +54,7 @@ public:
 	void SetContactListener(p2ContactListener* contactListener);
 private:
 	p2Vec2 m_Gravity;
+	//p2QuadTree m_quad_tree_;
 	std::vector<p2Body> m_Bodies;
 	int m_BodyIndex = 0;
 };

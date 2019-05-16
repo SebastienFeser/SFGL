@@ -89,11 +89,15 @@ void ColliderManager::CreateComponent(json& componentJson, Entity entity)
 			switch (colliderType)
 			{
 			case ColliderType::CIRCLE:
+			{
 				shape = std::make_unique<p2CircleShape>();
+				auto circleShape = std::make_unique<p2CircleShape>();
 				if (CheckJsonNumber(componentJson, "radius"))
 				{
-					//shape->m_radius = pixel2meter(static_cast<float>(componentJson["radius"]));
+					circleShape->SetRadius(pixel2meter(static_cast<float>(componentJson["radius"])));
 				}
+				shape = std::move(circleShape);
+			}
 				break;
 			case ColliderType::BOX:
 			{
@@ -106,7 +110,7 @@ void ColliderManager::CreateComponent(json& componentJson, Entity entity)
 						oss << "Box physics size: " << size.x << ", " << size.y;
 						Log::GetInstance()->Msg(oss.str());
 					}
-					//boxShape->SetAsBox(size.x / 2.0f, size.y / 2.0f);
+					boxShape->SetSize(p2Vec2(size.x/2, size.y/2));
 				}
 				shape = std::move(boxShape);
 			}	

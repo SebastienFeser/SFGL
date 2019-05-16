@@ -35,6 +35,11 @@ void p2CircleShape::SetRadius(float radius)
 	m_Radius = radius;
 }
 
+float p2CircleShape::GetRadius() const
+{
+	return m_Radius;
+}
+
 p2RectShape::p2RectShape(p2Vec2 size)
 {
 	type = ShapeType::RECT;
@@ -44,4 +49,9 @@ p2RectShape::p2RectShape(p2Vec2 size)
 void p2RectShape::SetSize(p2Vec2 size)
 {
 	m_Size = size;
+}
+
+p2Vec2 p2RectShape::GetSize() const
+{
+	return m_Size;
 }

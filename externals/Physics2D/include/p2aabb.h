@@ -33,6 +33,8 @@ SOFTWARE.
 struct p2AABB
 {
 	p2Vec2 bottomLeft;
+	p2Vec2 bottomRight;
+	p2Vec2 topLeft;
 	p2Vec2 topRight;
 
 	/**

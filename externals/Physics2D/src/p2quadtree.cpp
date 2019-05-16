@@ -29,10 +29,11 @@ void p2QuadTree::Clear()
 void p2QuadTree::Split()
 {
 	if (m_NodeLevel > MAX_LEVELS)
+		//Split
 		return;
 
 	// Define the corners of the current node
-	const p2Vec2 extends = m_Bounds.GetExtends();
+	const p2Vec2 extends = m_Bounds.GetExtends(); // AABB function
 
 	// Set the current position
 	p2Vec2 currentPosition = m_Bounds.bottomLeft;

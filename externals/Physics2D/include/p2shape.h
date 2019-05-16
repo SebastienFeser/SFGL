@@ -52,6 +52,7 @@ public:
 	* \brief Setter for the radius
 	*/
 	void SetRadius(float radius);
+	float GetRadius() const;
 private:
 	float m_Radius;
 };
@@ -64,6 +65,7 @@ class p2RectShape : public p2Shape
 public:
 	p2RectShape(p2Vec2 size = p2Vec2());
 	void SetSize(p2Vec2 size);
+	p2Vec2 GetSize() const;
 private:
 	p2Vec2 m_Size;
 };

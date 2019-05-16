@@ -51,6 +51,15 @@ p2Vec2 p2Body::GetPosition()
 	return position;
 }
 
+void p2Body::RebuildAABB()
+{
+	//p2Vec2 bottomLeft = ;
+	//p2Vec2 bottomRight =;
+	//p2Vec2 topLeft =;
+	//p2Vec2 topRight =;
+}
+
+
 p2Collider * p2Body::CreateCollider(p2ColliderDef * colliderDef)
 {
 	p2Collider & collider = m_Colliders[m_ColliderIndex];

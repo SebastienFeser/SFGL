@@ -22,11 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 #include <p2world.h>
+#include "p2quadtree.h"
 
 
 p2World::p2World(p2Vec2 gravity): m_Gravity(gravity)
 {
 	this->m_Gravity = gravity;
+	//this->m_quad_tree_ = p2QuadTree();
 	m_Bodies.resize(MAX_BODY_LEN);
 }
 
@@ -52,6 +54,8 @@ void p2World::Step(float dt)
 			body.SetLinearVelocity(bodyLinearVelocity + (this->m_Gravity * dt));
 			body.SetPosition(body.GetPosition() + body.GetLinearVelocity());
 		}
+
+
 		// TODO: Apply angular velocity
 		//body.SetLinearVelocity(body.GetLinearVelocity());
 
