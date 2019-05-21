@@ -54,7 +54,7 @@ public:
 	void SetContactListener(p2ContactListener* contactListener);
 private:
 	p2Vec2 m_Gravity;
-	//p2QuadTree m_quad_tree_;
+	p2QuadTree m_QuadTree;
 	std::vector<p2Body> m_Bodies;
 	int m_BodyIndex = 0;
 };
