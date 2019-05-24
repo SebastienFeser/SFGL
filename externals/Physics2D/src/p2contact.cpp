@@ -24,12 +24,43 @@ SOFTWARE.
 
 #include <p2contact.h>
 
+p2Contact::p2Contact(p2Collider* colliderA, p2Collider* colliderB)
+{
+	this->colliderA = colliderA;
+	this->colliderB = colliderB;
+}
+
 p2Collider * p2Contact::GetColliderA()
 {
-	return nullptr;
+	return colliderA;
 }
 
 p2Collider * p2Contact::GetColliderB()
 {
-	return nullptr;
+	return colliderB;
+}
+
+void p2ContactManager::CheckAABBContact()
+{
+
+}
+
+void p2ContactManager::CheckCollision()
+{
+
+}
+
+void p2ContactManager::CollisionSquareSquare()
+{
+
+}
+
+void p2ContactManager::CollisionCircleSquare()
+{
+
+}
+
+void p2ContactManager::CollisionCircleCircle()
+{
+
 }

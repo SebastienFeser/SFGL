@@ -82,6 +82,8 @@ public:
 	void SetPosition(const p2Vec2 position);
 	p2BodyType GetType() const;
 	float GetMass() const;
+	p2AABB GetAABB() const;
+
 private:
 	p2AABB aabb;
 	p2Vec2 position;

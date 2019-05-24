@@ -33,6 +33,8 @@ void p2QuadTree::Clear()
 
 }
 
+
+
 void p2QuadTree::Split()
 {
 	//Check if the max Node level is achieved
@@ -93,16 +95,82 @@ int p2QuadTree::GetIndex(p2Body * rect)
 
 void p2QuadTree::Insert(p2Body * obj)
 {
-	m_Objects.push_back(obj); //Pushing every objects in the QuadTree list
-	if (m_NodeLevel > MAX_LEVELS)
+	//Test if the quadTree has children
+	if (nodes == nullptr)
 	{
-		Split();
+		if (m_Objects.size() >= MAX_OBJECTS && m_NodeLevel <= MAX_LEVELS)
+		{
+			Split();
+			//Dispatch the gameObjects in the children
+			std::list<p2Body*> m_Objects_Copy = m_Objects;
+			m_Objects.clear();
+			for (p2Body* element : m_Objects_Copy)
+			{
+				Insert(element);
+			}
+		}
+		else
+		{
+			//Add Object to the actual QuadTree
+			m_Objects.push_back(obj);
+		}
 	}
+	else
+	{
+		p2QuadTree* childQuadTree;
+
+		//Check the position of the body to dispatch to the child
+		for (int i= 0;  i < CHILD_TREE_NMB; i++)
+		{
+			if (obj->GetPosition().x >= nodes[i]->GetAABB().bottomLeft.x && 
+				obj->GetPosition().y >= nodes[i]->GetAABB().bottomLeft.y &&
+				obj->GetPosition().x <= nodes[i]->GetAABB().topRight.x &&
+				obj->GetPosition().y <= nodes[i]->GetAABB().topRight.y)
+			{
+
+				childQuadTree = nodes[i];
+
+				return;
+			}
+		}
+		
+		//Check if Body AABB is in the QuadTree AABB
+		if ((obj->GetAABB().bottomLeft.x < childQuadTree->GetAABB().bottomLeft.x ||
+			obj->GetAABB().bottomLeft.y < childQuadTree->GetAABB().bottomLeft.y || 
+			obj->GetAABB().topRight.x > childQuadTree->GetAABB().topRight.x || 
+			obj->GetAABB().topRight.x > childQuadTree->GetAABB().topRight.x))
+		{
+			m_Objects.push_back(obj);
+		}
+		else
+		{
+			childQuadTree->Insert(obj);
+		}
+	}
+
+
+
+
+
 
 }
 
-void p2QuadTree::Retrieve()
+void p2QuadTree::Retrieve()			//Create a list of the lists of the objects that could collide
 {
+	//Appel fonction retrieve si il a des enfants et check pour ses bodys
 
+	//Check contact peut se faire ici
 
+	//Fonctionne avec des vecteurs (listes)
+
+}
+
+void p2QuadTree::AddExternalObject(p2Body * obj)
+{
+	m_Objects.push_back(obj);
+}
+
+p2AABB p2QuadTree::GetAABB() const
+{
+	return  m_Bounds;
 }

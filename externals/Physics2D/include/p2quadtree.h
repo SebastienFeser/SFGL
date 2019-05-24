@@ -61,6 +61,13 @@ public:
 	* Return a list of all the p2Body that might collide
 	*/
 	void Retrieve();
+
+	/**
+	 * Add an external gameObject to the m_ObjectList (used for the retrieve) 
+	 */
+	void AddExternalObject(p2Body* obj);
+	
+	p2AABB GetAABB() const;
 	
 private:
 	static const int MAX_OBJECTS = 10;

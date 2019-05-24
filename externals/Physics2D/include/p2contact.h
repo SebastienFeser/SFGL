@@ -32,9 +32,14 @@ SOFTWARE.
 */
 class p2Contact
 {
+	//Constructor gets the colliders
 public:
+	p2Contact(p2Collider* colliderA, p2Collider* colliderB);
 	p2Collider* GetColliderA();
 	p2Collider* GetColliderB();
+private:
+	p2Collider* colliderA;
+	p2Collider* colliderB;
 };
 
 /**
@@ -52,6 +57,11 @@ public:
 */
 class p2ContactManager
 {
+	void CheckAABBContact();
+	void CheckCollision();
 
+	void CollisionSquareSquare();
+	void CollisionCircleSquare();
+	void CollisionCircleCircle();
 };
 #endif
