@@ -28,7 +28,7 @@ SOFTWARE.
 p2World::p2World(p2Vec2 gravity): m_Gravity(gravity)
 {
 	this->m_Gravity = gravity;
-	this->m_QuadTree = p2QuadTree();
+	//this->m_QuadTree = p2QuadTree();
 	m_Bodies.resize(MAX_BODY_LEN);
 }
 
@@ -54,7 +54,17 @@ void p2World::Step(float dt)
 			body.SetLinearVelocity(bodyLinearVelocity + (this->m_Gravity * dt));
 			body.SetPosition(body.GetPosition() + body.GetLinearVelocity());
 		}
-
+		for (p2Body& element : m_Bodies)
+		{
+			if (element.GetColliders().size() < 1)
+			{
+				
+			}
+			else
+			{
+				element.GetColliders()[0].RebuildAABB(element.GetPosition());
+			}
+		}
 
 		// TODO: Apply angular velocity
 		//body.SetLinearVelocity(body.GetLinearVelocity());
@@ -67,11 +77,11 @@ void p2World::Step(float dt)
 	}
 
 	// Quadtree
-	m_QuadTree.Clear(); //TODO
+	//m_QuadTree.Clear(); //TODO
 
 	for (int i = 0; i < m_Bodies.size(); i++)
 	{
-		m_QuadTree.Insert(m_Bodies[i]); //TODO: To correct & write code
+		//m_QuadTree.Insert(m_Bodies[i]); //TODO: To correct & write code
 	}
 	//Retrieve
 

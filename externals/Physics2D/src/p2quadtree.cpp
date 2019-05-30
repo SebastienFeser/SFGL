@@ -86,9 +86,9 @@ int p2QuadTree::GetIndex(p2Body * rect)
 			if (body == rect)
 				return i;
 		}
-	}
+	}*/
 
-	return 0;*/
+	return 0;
 
 
 }

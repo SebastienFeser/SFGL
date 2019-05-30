@@ -110,7 +110,7 @@ void ColliderManager::CreateComponent(json& componentJson, Entity entity)
 						oss << "Box physics size: " << size.x << ", " << size.y;
 						Log::GetInstance()->Msg(oss.str());
 					}
-					boxShape->SetSize(p2Vec2(size.x/2, size.y/2));
+					boxShape->SetSize(p2Vec2(size.x, size.y));
 				}
 				shape = std::move(boxShape);
 			}	
@@ -130,7 +130,7 @@ void ColliderManager::CreateComponent(json& componentJson, Entity entity)
 		}
 		if (shape != nullptr)
 		{
-			fixtureDef.shape = shape.get();
+			fixtureDef.shape = *shape.get();
 
 			auto index = GetFreeComponentIndex();
 			if(index != -1)

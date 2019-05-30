@@ -84,6 +84,8 @@ public:
 	float GetMass() const;
 	p2AABB GetAABB() const;
 
+	std::vector<p2Collider> GetColliders() const;
+
 private:
 	p2AABB aabb;
 	p2Vec2 position;

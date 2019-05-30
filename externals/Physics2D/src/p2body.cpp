@@ -92,3 +92,8 @@ p2AABB p2Body::GetAABB() const
 {
 	return aabb;
 }
+
+std::vector<p2Collider> p2Body::GetColliders() const 
+{
+	return m_Colliders;
+}

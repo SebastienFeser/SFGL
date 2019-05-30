@@ -26,6 +26,7 @@ SOFTWARE.
 #define SFGE_P2CONTACT_H
 
 #include <p2collider.h>
+#include "p2body.h"
 
 /**
 * \brief Representation of a contact given as argument in a p2ContactListener
@@ -57,11 +58,31 @@ public:
 */
 class p2ContactManager
 {
-	void CheckAABBContact();
-	void CheckCollision();
+public:
+	p2ContactManager(p2Contact* contact);
 
+	/**
+	 *\brief Check if there's contact between the colliders AABB
+	 */
+	void CheckAABBContact(p2Body bodyA, p2Body bodyB);
+	/**
+	 *\brief check if there's a collision between the two objects colliders
+	 */
+	void CheckCollision(p2Body bodyA, p2Body bodyB);
+
+	/**
+	 *\brief check the collision between 2 quares
+	 */
 	void CollisionSquareSquare();
+	/**
+	 *\brief check the collision between 1 circles and 1 square
+	 */
 	void CollisionCircleSquare();
+	/**
+	 *\brief check the collision between 2 circles
+	 */
 	void CollisionCircleCircle();
+private:
+	p2Contact* contact;
 };
 #endif

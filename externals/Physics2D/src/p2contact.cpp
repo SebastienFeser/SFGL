@@ -40,12 +40,79 @@ p2Collider * p2Contact::GetColliderB()
 	return colliderB;
 }
 
-void p2ContactManager::CheckAABBContact()
+p2ContactManager::p2ContactManager(p2Contact* contact)
 {
-
+	this->contact = contact;
 }
 
-void p2ContactManager::CheckCollision()
+void p2ContactManager::CheckAABBContact(p2Body bodyA, p2Body bodyB)
+{
+	bool isContact = false;
+
+	//Check bodyA aabb
+	if(
+		//topRight
+		bodyB.GetAABB().topRight.x < bodyA.GetAABB().topRight.x && 
+		bodyB.GetAABB().topRight.y < bodyA.GetAABB().topRight.y &&
+		bodyB.GetAABB().topRight.x > bodyA.GetAABB().bottomLeft.x &&
+		bodyB.GetAABB().topRight.y > bodyA.GetAABB().bottomLeft.y ||
+		//topLeft
+		bodyB.GetAABB().topLeft.x < bodyA.GetAABB().topRight.x &&
+		bodyB.GetAABB().topLeft.y < bodyA.GetAABB().topRight.y &&
+		bodyB.GetAABB().topLeft.x > bodyA.GetAABB().bottomLeft.x &&
+		bodyB.GetAABB().topLeft.y > bodyA.GetAABB().bottomLeft.y ||
+		//bottomRight
+		bodyB.GetAABB().bottomRight.x < bodyA.GetAABB().topRight.x &&
+		bodyB.GetAABB().bottomRight.y < bodyA.GetAABB().topRight.y &&
+		bodyB.GetAABB().bottomRight.x > bodyA.GetAABB().bottomLeft.x &&
+		bodyB.GetAABB().bottomRight.y > bodyA.GetAABB().bottomLeft.y ||
+		//bottomLeft
+		bodyB.GetAABB().bottomLeft.x < bodyA.GetAABB().topRight.x &&
+		bodyB.GetAABB().bottomLeft.y < bodyA.GetAABB().topRight.y &&
+		bodyB.GetAABB().bottomLeft.x > bodyA.GetAABB().bottomLeft.x &&
+		bodyB.GetAABB().bottomLeft.y > bodyA.GetAABB().bottomLeft.y
+		)
+	{
+		isContact = true;
+	}
+
+	//Check bodyB aabb
+	if (
+		//Check ifContact for optimisation
+		isContact ||
+		//topRight
+		bodyA.GetAABB().topRight.x < bodyB.GetAABB().topRight.x &&
+		bodyA.GetAABB().topRight.y < bodyB.GetAABB().topRight.y &&
+		bodyA.GetAABB().topRight.x > bodyB.GetAABB().bottomLeft.x &&
+		bodyA.GetAABB().topRight.y > bodyB.GetAABB().bottomLeft.y ||
+		//topLeft
+		bodyA.GetAABB().topLeft.x < bodyB.GetAABB().topRight.x &&
+		bodyA.GetAABB().topLeft.y < bodyB.GetAABB().topRight.y &&
+		bodyA.GetAABB().topLeft.x > bodyB.GetAABB().bottomLeft.x &&
+		bodyA.GetAABB().topLeft.y > bodyB.GetAABB().bottomLeft.y ||
+		//bottomRight
+		bodyA.GetAABB().bottomRight.x < bodyB.GetAABB().topRight.x &&
+		bodyA.GetAABB().bottomRight.y < bodyB.GetAABB().topRight.y &&
+		bodyA.GetAABB().bottomRight.x > bodyB.GetAABB().bottomLeft.x &&
+		bodyA.GetAABB().bottomRight.y > bodyB.GetAABB().bottomLeft.y ||
+		//bottomLeft
+		bodyA.GetAABB().bottomLeft.x < bodyB.GetAABB().topRight.x &&
+		bodyA.GetAABB().bottomLeft.y < bodyB.GetAABB().topRight.y &&
+		bodyA.GetAABB().bottomLeft.x > bodyB.GetAABB().bottomLeft.x &&
+		bodyA.GetAABB().bottomLeft.y > bodyB.GetAABB().bottomLeft.y
+		)
+	{
+		isContact = true;
+	}
+
+	if (isContact)
+	{
+		CheckCollision(bodyA, bodyB);
+	}
+	//if(contact->GetColliderA()->GetAABB().topRight.x < contact->GetColliderB()->GetAABB().topRight.x ||)
+}
+
+void p2ContactManager::CheckCollision(p2Body bodyA, p2Body bodyB)
 {
 
 }

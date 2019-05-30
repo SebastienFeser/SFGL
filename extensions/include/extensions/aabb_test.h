@@ -21,42 +21,49 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+#ifndef SFGE_AABB_TEST
+#define SFGE_AABB_TEST
 
-#ifndef SFGE_P2WORLD_H
-#define SFGE_P2WORLD_H
+#include <engine/system.h>
+#include <graphics/graphics2d.h>
+#include "p2body.h"
 
-#include <p2vector.h>
-#include <p2body.h>
-#include <p2contact.h>
-#include "p2quadtree.h"
 
-const size_t MAX_BODY_LEN = 256;
-
-/**
-* \brief Representation of the physical world in meter
-*/
-class p2World
+namespace sfge
 {
-public:
-	p2World(p2Vec2 gravity);
-	/**
-	* \brief Simulate a new step of the physical world, simplify the resolution with a QuadTree, generate the new contacts
-	*/
-	void 
-	Step(float dt);
-	/**
-	* \brief Factory method to create a new p2Body attached to the p2World
-	*/
-	p2Body* CreateBody(p2BodyDef* bodyDef);
-	/**
-	* \brief Set the contact listener
-	*/
-	void SetContactListener(p2ContactListener* contactListener);
-private:
-	p2Vec2 m_Gravity;
-	//p2QuadTree m_QuadTree;
-	std::vector<p2Body> m_Bodies;
-	int m_BodyIndex = 0;
-};
+	struct Transform2d;
+	class Transform2dManager;
+	class Body2dManager;
+	class TextureManager;
+	class SpriteManager;
+}
+namespace sfge::ext
+{
+
+
+	class AABBTest : public System
+	{
+	public:
+		AABBTest(Engine& engine);
+
+		void OnEngineInit() override;
+
+		void OnUpdate(float dt) override;
+
+		void OnFixedUpdate() override;
+
+		void OnDraw() override;
+
+	private:
+
+		void DrawAABB(std::vector<p2Collider> colliders, sf::Color color);
+
+		Graphics2dManager* m_GraphicsManager;
+		Body2dManager* m_BodyManager;
+
+		std::vector<Entity> m_Entities;
+		std::vector<p2Body*> m_Bodies;
+	};
+}
 
 #endif

@@ -25,11 +25,9 @@ SOFTWARE.
 #include <engine/system.h>
 #include <engine/engine.h>
 
-#include <pybind11/operators.h>
-#include <pybind11/stl.h>
-
 #include <extensions/python_extensions.h>
 #include <extensions/planet_system.h>
+#include <extensions/aabb_test.h>
 
 #include <tools/tools_pch.h>
 
@@ -40,8 +38,13 @@ static std::vector<std::function<void(py::module&)>> m_OtherPythonExtensions;
 
 void ExtendPython(py::module& m)
 {
+	//Each time I add a test file, I've to add the file here
 	py::class_<PlanetSystem, System> planetSystem(m, "PlanetSystem");
 	planetSystem
+		.def(py::init<Engine&>());
+
+	py::class_<AABBTest, System> aabbTest(m, "AABBTest");
+	aabbTest
 		.def(py::init<Engine&>());
 	
 
