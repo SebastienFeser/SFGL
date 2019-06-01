@@ -54,17 +54,20 @@ void p2World::Step(float dt)
 			body.SetLinearVelocity(bodyLinearVelocity + (this->m_Gravity * dt));
 			body.SetPosition(body.GetPosition() + body.GetLinearVelocity());
 		}
-		for (p2Body& element : m_Bodies)
+		
+		if (body.GetColliders()->size() < 1)
 		{
-			if (element.GetColliders().size() < 1)
+			//BUG: The Colliders are cleared
+		}
+		else
+		{
+			for (p2Collider &element2 : *body.GetColliders())
 			{
-				
-			}
-			else
-			{
-				element.GetColliders()[0].RebuildAABB(element.GetPosition());
+
+				element2.RebuildAABB(body.GetPosition());
 			}
 		}
+
 
 		// TODO: Apply angular velocity
 		//body.SetLinearVelocity(body.GetLinearVelocity());

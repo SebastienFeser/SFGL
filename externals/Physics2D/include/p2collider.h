@@ -44,7 +44,7 @@ enum class p2ColliderType
 struct p2ColliderDef
 {
 	void* userData;
-	p2Shape shape;
+	p2Shape* shape;
 	float restitution;
 	p2ColliderType colliderType;
 	bool isSensor = false;
@@ -78,7 +78,7 @@ private:
 	void* userData = nullptr;
 	p2ColliderDef colliderDefinition;
 	p2ColliderType m_ColliderType;
-	p2Shape m_Shape;
+	p2Shape* m_Shape;
 	p2Vec2 halfExtend; //Half size of collider
 };
 

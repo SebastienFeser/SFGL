@@ -60,15 +60,16 @@ class p2ContactManager
 {
 public:
 	p2ContactManager(p2Contact* contact);
+	p2ContactManager();
 
 	/**
 	 *\brief Check if there's contact between the colliders AABB
 	 */
-	void CheckAABBContact(p2Body bodyA, p2Body bodyB);
+	bool CheckAABBContact(p2Body &bodyA, p2Body &bodyB);
 	/**
 	 *\brief check if there's a collision between the two objects colliders
 	 */
-	void CheckCollision(p2Body bodyA, p2Body bodyB);
+	void CheckCollision(p2Body bodyA, p2Body bodyB, p2Collider colliderA, p2Collider colliderB);
 
 	/**
 	 *\brief check the collision between 2 quares

@@ -88,12 +88,12 @@ float p2Body::GetMass() const
 	return 1.0f;
 }
 
-p2AABB p2Body::GetAABB() const
+/*p2AABB p2Body::GetAABB() const
 {
 	return aabb;
-}
+}*/
 
-std::vector<p2Collider> p2Body::GetColliders() const 
+std::vector<p2Collider>* p2Body::GetColliders()
 {
-	return m_Colliders;
+	return &m_Colliders;
 }

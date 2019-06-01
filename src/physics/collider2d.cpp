@@ -97,6 +97,7 @@ void ColliderManager::CreateComponent(json& componentJson, Entity entity)
 					circleShape->SetRadius(pixel2meter(static_cast<float>(componentJson["radius"])));
 				}
 				shape = std::move(circleShape);
+				fixtureDef.colliderType = p2ColliderType::CIRCLE;
 			}
 				break;
 			case ColliderType::BOX:
@@ -113,6 +114,8 @@ void ColliderManager::CreateComponent(json& componentJson, Entity entity)
 					boxShape->SetSize(p2Vec2(size.x, size.y));
 				}
 				shape = std::move(boxShape);
+
+				fixtureDef.colliderType = p2ColliderType::RECT;
 			}	
 			break;
 			default:
@@ -130,7 +133,7 @@ void ColliderManager::CreateComponent(json& componentJson, Entity entity)
 		}
 		if (shape != nullptr)
 		{
-			fixtureDef.shape = *shape.get();
+			fixtureDef.shape = shape.get();
 
 			auto index = GetFreeComponentIndex();
 			if(index != -1)

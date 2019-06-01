@@ -135,7 +135,7 @@ void p2QuadTree::Insert(p2Body * obj)
 		}
 		
 		//Check if Body AABB is in the QuadTree AABB
-		if ((obj->GetAABB().bottomLeft.x < childQuadTree->GetAABB().bottomLeft.x ||
+		/*if ((obj->GetAABB().bottomLeft.x < childQuadTree->GetAABB().bottomLeft.x ||
 			obj->GetAABB().bottomLeft.y < childQuadTree->GetAABB().bottomLeft.y || 
 			obj->GetAABB().topRight.x > childQuadTree->GetAABB().topRight.x || 
 			obj->GetAABB().topRight.x > childQuadTree->GetAABB().topRight.x))
@@ -145,7 +145,7 @@ void p2QuadTree::Insert(p2Body * obj)
 		else
 		{
 			childQuadTree->Insert(obj);
-		}
+		}*/
 	}
 
 

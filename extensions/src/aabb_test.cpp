@@ -27,9 +27,13 @@ SOFTWARE.
 #include <graphics/graphics2d.h>
 #include <physics/body2d.h>
 #include <physics/physics2d.h>
+#include <p2contact.h>
 
 #include <iostream>
 
+const p2Vec2 minimumPosition = p2Vec2(0, 0);
+const p2Vec2 maximumPosition = p2Vec2(13, 7);
+bool contact;
 
 namespace sfge::ext
 {
@@ -51,6 +55,24 @@ namespace sfge::ext
 			const auto body = m_BodyManager->GetComponentPtr(entity);
 			m_Bodies.push_back(body->GetBody());
 		}
+
+		for (auto& body : m_Bodies)
+		{
+			body->SetLinearVelocity(p2Vec2(0.1,0.1));
+		}
+
+		for (auto& body : m_Bodies )
+		{
+			for (auto& body2 : m_Bodies)
+			{
+				p2ContactManager contactManager;
+				if (contactManager.CheckAABBContact(*body, *body2))
+				{
+					contact = true;
+				}
+
+			}
+		}
 	}
 
 	void AABBTest::OnUpdate(float dt)
@@ -61,6 +83,26 @@ namespace sfge::ext
 
 	void AABBTest::OnFixedUpdate()
 	{
+		for (auto& element : m_Bodies)
+		{
+			if (element->GetPosition().x > maximumPosition.x)
+			{
+				element->SetLinearVelocity(p2Vec2(-element->GetLinearVelocity().x, element->GetLinearVelocity().y));
+			};
+			if(element->GetPosition().x < minimumPosition.x)
+			{
+				element->SetLinearVelocity(p2Vec2(-element->GetLinearVelocity().x, element->GetLinearVelocity().y));
+			}
+			if(element->GetPosition().y > maximumPosition.y)
+			{
+				element->SetLinearVelocity(p2Vec2(element->GetLinearVelocity().x, -element->GetLinearVelocity().y));
+			}
+			if(element->GetPosition().y < minimumPosition.y)
+			{
+				element->SetLinearVelocity(p2Vec2(element->GetLinearVelocity().x, -element->GetLinearVelocity().y));
+			}
+
+		}
 		rmt_ScopedCPUSample(PlanetSystemFixedUpdate,0);
 	}
 
@@ -70,22 +112,32 @@ namespace sfge::ext
 
 		for (auto& body : m_Bodies)
 		{
-			DrawAABB(body->GetColliders(), sf::Color::Cyan);
+			DrawAABB(*body->GetColliders(), sf::Color::Cyan);
+			for (p2Collider &element : *body->GetColliders())
+			{
 
-			std::cout << "Top Right: (" << body->GetColliders()[0].GetAABB().topRight.x << ",";
-			std::cout << body->GetColliders()[0].GetAABB().topRight.y << ") \n";
+				std::cout << "Top Right: (" << element.GetAABB().topRight.x << ",";
+				std::cout << element.GetAABB().topRight.y << ") \n";
 
-			std::cout << "Bottom Right: (" << body->GetColliders()[0].GetAABB().bottomRight.x << ",";
-			std::cout << body->GetColliders()[0].GetAABB().bottomRight.y << ") \n";
+				std::cout << "Bottom Right: (" << element.GetAABB().bottomRight.x << ",";
+				std::cout << element.GetAABB().bottomRight.y << ") \n";
 
-			std::cout << "Top Left: (" << body->GetColliders()[0].GetAABB().topLeft.x << ",";
-			std::cout << body->GetColliders()[0].GetAABB().topLeft.y << ") \n";
+				std::cout << "Top Left: (" << element.GetAABB().topLeft.x << ",";
+				std::cout << element.GetAABB().topLeft.y << ") \n";
 
-			std::cout << "Bottom Left: (" << body->GetColliders()[0].GetAABB().bottomLeft.x << ",";
-			std::cout << body->GetColliders()[0].GetAABB().bottomLeft.y << ") \n \n";
+				std::cout << "Bottom Left: (" << element.GetAABB().bottomLeft.x << ",";
+				std::cout << element.GetAABB().bottomLeft.y << ") \n \n";
+
+				std::cout << contact << "\n \n";
+			}
+			
 		}
 
-		//m_GraphicsManager->DrawLine(Vec2f(0, 0), Vec2f(400, 400), sf::Color::White);
+		if (contact)
+		{
+			m_GraphicsManager->DrawLine(Vec2f(0, 0), Vec2f(400, 400), sf::Color::White);
+			contact = false;
+		}
 	}
 
 	void AABBTest::DrawAABB(std:: vector<p2Collider> colliders, sf::Color color)

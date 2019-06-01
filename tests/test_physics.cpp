@@ -184,6 +184,7 @@ TEST(Physics, TestShapeContact)
 		int randShapeIndex = rand() % 2;
 		entityJson["components"] = { transformJson, shapes[randShapeIndex], rigidbody, colliders[randShapeIndex] };
 
+		
 	}
 	sceneJson["entities"] = entities;
 	sceneJson["systems"] = json::array({
@@ -359,7 +360,7 @@ TEST(Final, ShowAABB)
 	circleShapeJson["name"] = "Circle Shape Component";
 	circleShapeJson["type"] = sfge::ComponentType::SHAPE2D;
 	circleShapeJson["shape_type"] = sfge::ShapeType::CIRCLE;
-	circleShapeJson["radius"] = 50;
+	circleShapeJson["radius"] = 70;
 
 	json rigidBodyJson1;
 	rigidBodyJson1["name"] = "Rigidbody";
@@ -370,13 +371,43 @@ TEST(Final, ShowAABB)
 	circleColliderJson["name"] = "Circle Collider";
 	circleColliderJson["type"] = sfge::ComponentType::COLLIDER2D;
 	circleColliderJson["collider_type"] = sfge::ColliderType::CIRCLE;
-	circleColliderJson["radius"] = 50;
+	circleColliderJson["radius"] = 70;
 	circleColliderJson["sensor"] = false;
 
 	//entities[0]["components"] = { transformJson1, circleShapeJson, rigidBodyJson1, circleColliderJson};
 	entityBody1["components"] = { transformJson1, circleShapeJson, rigidBodyJson1, circleColliderJson };
 
 	json entityBody2;
+
+	entityBody2["name"] = "Body1";
+
+	transformJson1;
+	transformJson1["type"] = sfge::ComponentType::TRANSFORM2D;
+	transformJson1["position"] = { 400,500 };
+
+	circleShapeJson;
+	circleShapeJson["name"] = "Circle Shape Component";
+	circleShapeJson["type"] = sfge::ComponentType::SHAPE2D;
+	circleShapeJson["shape_type"] = sfge::ShapeType::CIRCLE;
+	circleShapeJson["radius"] = 70;
+
+	rigidBodyJson1;
+	rigidBodyJson1["name"] = "Rigidbody";
+	rigidBodyJson1["type"] = sfge::ComponentType::BODY2D;
+	rigidBodyJson1["body_type"] = p2BodyType::DYNAMIC;
+
+	circleColliderJson;
+	circleColliderJson["name"] = "Circle Collider";
+	circleColliderJson["type"] = sfge::ComponentType::COLLIDER2D;
+	circleColliderJson["collider_type"] = sfge::ColliderType::CIRCLE;
+	circleColliderJson["radius"] = 70;
+	circleColliderJson["sensor"] = false;
+
+	//entities[0]["components"] = { transformJson1, circleShapeJson, rigidBodyJson1, circleColliderJson};
+	entityBody2["components"] = { transformJson1, circleShapeJson, rigidBodyJson1, circleColliderJson };
+
+
+
 	//sceneJson["entities"] = entities;
 	sceneJson["entities"] = { entityBody1, entityBody2 };
 	sceneJson["systems"] = json::array({

@@ -15,7 +15,7 @@ void p2Collider::Init(p2ColliderDef* colDef) //values taken from the json
 	colliderDefinition = *colDef; //colliderDefinition = values used on init
 	userData = colDef->userData;
 	m_ColliderType = colDef->colliderType;
-	m_Shape = colDef->shape;
+	//m_Shape = colDef->shape;
 	
 	//aabb = 
 
@@ -23,14 +23,16 @@ void p2Collider::Init(p2ColliderDef* colDef) //values taken from the json
 	{
 	case p2ColliderType::CIRCLE:
 	{
-		const auto circleShape = static_cast<p2CircleShape*>(&m_Shape); //To take p2Circle shape
+		const auto circleShape = new p2CircleShape(*static_cast<p2CircleShape*>(colDef->shape)); //To take p2Circle shape
 		halfExtend = p2Vec2(circleShape->GetRadius(), circleShape->GetRadius());
+		m_Shape = circleShape;
 		break;
 	}
 	case p2ColliderType::RECT:
 	{
-		const auto rectShape = static_cast<p2RectShape*>(&m_Shape);
+		const auto rectShape = new p2RectShape(*static_cast<p2RectShape*>(colDef->shape)); //To take p2Circle shape
 		halfExtend = rectShape->GetSize()/2.f;
+		m_Shape = rectShape;
 		break;
 	}
 	/*case p2ColliderType::POLY:
@@ -59,7 +61,7 @@ void * p2Collider::GetUserData() const
 
 p2Shape* p2Collider::GetShape()
 {
-	return &m_Shape;
+	return m_Shape;
 }
 
 void p2Collider::SetUserData(void* colliderData)
