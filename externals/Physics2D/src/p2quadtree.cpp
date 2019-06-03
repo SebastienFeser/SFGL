@@ -1,4 +1,5 @@
 #include "..\include\p2quadtree.h"
+#include "SFML/Window/Keyboard.hpp"
 
 p2QuadTree::p2QuadTree(int nodeLevel, p2AABB bounds)
 {
@@ -157,11 +158,27 @@ void p2QuadTree::Insert(p2Body * obj)
 
 void p2QuadTree::Retrieve()			//Create a list of the lists of the objects that could collide
 {
-	//Appel fonction retrieve si il a des enfants et check pour ses bodys
-
-	//Check contact peut se faire ici
-
-	//Fonctionne avec des vecteurs (listes)
+	if (nodes == nullptr)
+	{
+		for (auto& element : m_Objects)
+		{
+			for (auto& element : m_Objects)
+			{
+				//Check AABB Collision
+			}
+			m_Objects.remove(element);
+		}
+	}
+	else
+	{
+		for (auto& element1 : m_Objects)
+		{
+			for (auto& element2 : nodes)
+			{
+				element2->AddExternalObject(element1);
+			}
+		}
+	}
 
 }
 
