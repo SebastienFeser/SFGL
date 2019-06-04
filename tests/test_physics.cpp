@@ -420,3 +420,141 @@ TEST(Final, ShowAABB)
 	engine.Start();
 
 }
+
+TEST(Final, BodyGravity)
+{
+	// 4 body with different gravity
+	sfge::Engine engine;
+	auto config = std::make_unique<sfge::Configuration>();
+	config->gravity = p2Vec2(0.0f, 0.0f);
+	engine.Init(std::move(config));
+
+	auto* sceneManager = engine.GetSceneManager();
+
+	json sceneJson;
+
+	sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
+	sceneJson["systems"] = json::array({
+			{
+				{"systemClassName", "AABBTest"}
+			}
+		}
+	);
+	sceneManager->LoadSceneFromJson(sceneJson);
+	engine.Start();
+}
+
+TEST(Final, AABBContact)
+{
+	// 4 body with different gravity
+	sfge::Engine engine;
+	auto config = std::make_unique<sfge::Configuration>();
+	config->gravity = p2Vec2(0.0f, 0.0f);
+	engine.Init(std::move(config));
+
+	auto* sceneManager = engine.GetSceneManager();
+
+	json sceneJson;
+
+	sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
+	sceneJson["systems"] = json::array({
+			{
+				{"systemClassName", "AABBTest"}
+			}
+		}
+	);
+	sceneManager->LoadSceneFromJson(sceneJson);
+	engine.Start();
+}
+
+TEST(Final, QuadTree)
+{
+	// 4 body with different gravity
+	sfge::Engine engine;
+	auto config = std::make_unique<sfge::Configuration>();
+	config->gravity = p2Vec2(0.0f, 0.0f);
+	engine.Init(std::move(config));
+
+	auto* sceneManager = engine.GetSceneManager();
+
+	json sceneJson;
+
+	sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
+	sceneJson["systems"] = json::array({
+			{
+				{"systemClassName", "AABBTest"}
+			}
+		}
+	);
+	sceneManager->LoadSceneFromJson(sceneJson);
+	engine.Start();
+}
+
+TEST(Final, CollisionDetection)
+{
+	// 4 body with different gravity
+	sfge::Engine engine;
+	auto config = std::make_unique<sfge::Configuration>();
+	config->gravity = p2Vec2(0.0f, 0.0f);
+	engine.Init(std::move(config));
+
+	auto* sceneManager = engine.GetSceneManager();
+
+	json sceneJson;
+
+	sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
+	sceneJson["systems"] = json::array({
+			{
+				{"systemClassName", "AABBTest"}
+			}
+		}
+	);
+	sceneManager->LoadSceneFromJson(sceneJson);
+	engine.Start();
+}
+
+TEST(Final, CollisionCirclePlan)
+{
+	// 4 body with different gravity
+	sfge::Engine engine;
+	auto config = std::make_unique<sfge::Configuration>();
+	config->gravity = p2Vec2(0.0f, 0.0f);
+	engine.Init(std::move(config));
+
+	auto* sceneManager = engine.GetSceneManager();
+
+	json sceneJson;
+
+	sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
+	sceneJson["systems"] = json::array({
+			{
+				{"systemClassName", "AABBTest"}
+			}
+		}
+	);
+	sceneManager->LoadSceneFromJson(sceneJson);
+	engine.Start();
+}
+
+TEST(Final, CollisionCircleCircle)
+{
+	// 4 body with different gravity
+	sfge::Engine engine;
+	auto config = std::make_unique<sfge::Configuration>();
+	config->gravity = p2Vec2(0.0f, 0.0f);
+	engine.Init(std::move(config));
+
+	auto* sceneManager = engine.GetSceneManager();
+
+	json sceneJson;
+
+	sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
+	sceneJson["systems"] = json::array({
+			{
+				{"systemClassName", "AABBTest"}
+			}
+		}
+	);
+	sceneManager->LoadSceneFromJson(sceneJson);
+	engine.Start();
+}

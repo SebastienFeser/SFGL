@@ -74,15 +74,15 @@ public:
 	/**
 	 *\brief check the collision between 2 quares
 	 */
-	void CollisionSquareSquare();
+	void CollisionSquareSquare(p2Body bodyA, p2Body bodyB);
 	/**
 	 *\brief check the collision between 1 circles and 1 square
 	 */
-	void CollisionCircleSquare();
+	void CollisionCircleSquare(p2Body bodyCircle, p2Body bodySquare);
 	/**
 	 *\brief check the collision between 2 circles
 	 */
-	void CollisionCircleCircle();
+	void CollisionCircleCircle(p2Body bodyA, p2Body bodyB);
 private:
 	p2Contact* contact;
 };

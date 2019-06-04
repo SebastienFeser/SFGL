@@ -154,17 +154,31 @@ void p2ContactManager::CheckCollision(p2Body bodyA, p2Body bodyB, p2Collider col
 	}*/
 }
 
-void p2ContactManager::CollisionSquareSquare()
+void p2ContactManager::CollisionSquareSquare(p2Body bodyA, p2Body bodyB)
+{
+	
+}
+
+void p2ContactManager::CollisionCircleSquare(p2Body bodyCircle, p2Body bodySquare)
 {
 
 }
 
-void p2ContactManager::CollisionCircleSquare()
+void p2ContactManager::CollisionCircleCircle(p2Body bodyA, p2Body bodyB)
 {
+	float distanceCenterCenter;
+	float additionTwoRadius;
 
-}
-
-void p2ContactManager::CollisionCircleCircle()
-{
-
+	for (auto& element : *bodyA.GetColliders())
+	{
+		element.GetShape();
+	}
+	if (distanceCenterCenter < additionTwoRadius)
+	{
+		//There's Collision
+	}
+	else
+	{
+		//Not Collision
+	}
 }
