@@ -365,7 +365,7 @@ TEST(Final, ShowAABB)
 	json rigidBodyJson1;
 	rigidBodyJson1["name"] = "Rigidbody";
 	rigidBodyJson1["type"] = sfge::ComponentType::BODY2D;
-	rigidBodyJson1["body_type"] = p2BodyType::DYNAMIC;
+	rigidBodyJson1["body_type"] = p2BodyType::KINEMATIC;
 
 	json circleColliderJson;
 	circleColliderJson["name"] = "Circle Collider";
@@ -394,7 +394,7 @@ TEST(Final, ShowAABB)
 	rigidBodyJson1;
 	rigidBodyJson1["name"] = "Rigidbody";
 	rigidBodyJson1["type"] = sfge::ComponentType::BODY2D;
-	rigidBodyJson1["body_type"] = p2BodyType::DYNAMIC;
+	rigidBodyJson1["body_type"] = p2BodyType::KINEMATIC;
 
 	circleColliderJson;
 	circleColliderJson["name"] = "Circle Collider";
@@ -426,17 +426,110 @@ TEST(Final, BodyGravity)
 	// 4 body with different gravity
 	sfge::Engine engine;
 	auto config = std::make_unique<sfge::Configuration>();
-	config->gravity = p2Vec2(0.0f, 0.0f);
+	config->gravity = p2Vec2(0.0f, 0.981f);
 	engine.Init(std::move(config));
 
 	auto* sceneManager = engine.GetSceneManager();
 
 	json sceneJson;
+	sceneJson["name"] = "FallingBodies";
 
 	sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
+
+
+
+	json entityBody1;
+	entityBody1["name"] = "Body1";
+
+	json transformJson1;
+	transformJson1["type"] = sfge::ComponentType::TRANSFORM2D;
+	transformJson1["position"] = { 300,300 };
+
+	json circleShapeJson;
+	circleShapeJson["name"] = "Circle Shape Component";
+	circleShapeJson["type"] = sfge::ComponentType::SHAPE2D;
+	circleShapeJson["shape_type"] = sfge::ShapeType::CIRCLE;
+	circleShapeJson["radius"] = 70;
+
+	json rigidBodyJson1;
+	rigidBodyJson1["name"] = "Rigidbody";
+	rigidBodyJson1["type"] = sfge::ComponentType::BODY2D;
+	rigidBodyJson1["body_type"] = p2BodyType::DYNAMIC;
+
+	json circleColliderJson;
+	circleColliderJson["name"] = "Circle Collider";
+	circleColliderJson["type"] = sfge::ComponentType::COLLIDER2D;
+	circleColliderJson["collider_type"] = sfge::ColliderType::CIRCLE;
+	circleColliderJson["radius"] = 70;
+	circleColliderJson["sensor"] = false;
+
+	//entities[0]["components"] = { transformJson1, circleShapeJson, rigidBodyJson1, circleColliderJson};
+	entityBody1["components"] = { transformJson1, circleShapeJson, rigidBodyJson1, circleColliderJson };
+
+
+
+	json entityBody2;
+	entityBody2["name"] = "Body2";
+
+	transformJson1;
+	transformJson1["type"] = sfge::ComponentType::TRANSFORM2D;
+	transformJson1["position"] = { 600,300 };
+
+	circleShapeJson;
+	circleShapeJson["name"] = "Circle Shape Component";
+	circleShapeJson["type"] = sfge::ComponentType::SHAPE2D;
+	circleShapeJson["shape_type"] = sfge::ShapeType::CIRCLE;
+	circleShapeJson["radius"] = 70;
+
+	rigidBodyJson1;
+	rigidBodyJson1["name"] = "Rigidbody";
+	rigidBodyJson1["type"] = sfge::ComponentType::BODY2D;
+	rigidBodyJson1["body_type"] = p2BodyType::DYNAMIC;
+
+	circleColliderJson;
+	circleColliderJson["name"] = "Circle Collider";
+	circleColliderJson["type"] = sfge::ComponentType::COLLIDER2D;
+	circleColliderJson["collider_type"] = sfge::ColliderType::CIRCLE;
+	circleColliderJson["radius"] = 70;
+	circleColliderJson["sensor"] = false;
+
+	//entities[0]["components"] = { transformJson1, circleShapeJson, rigidBodyJson1, circleColliderJson};
+	entityBody2["components"] = { transformJson1, circleShapeJson, rigidBodyJson1, circleColliderJson };
+
+
+
+	json entityBody3;
+	entityBody1["name"] = "Body3";
+
+	transformJson1;
+	transformJson1["type"] = sfge::ComponentType::TRANSFORM2D;
+	transformJson1["position"] = { 900,300 };
+
+	circleShapeJson;
+	circleShapeJson["name"] = "Circle Shape Component";
+	circleShapeJson["type"] = sfge::ComponentType::SHAPE2D;
+	circleShapeJson["shape_type"] = sfge::ShapeType::CIRCLE;
+	circleShapeJson["radius"] = 70;
+
+	rigidBodyJson1;
+	rigidBodyJson1["name"] = "Rigidbody";
+	rigidBodyJson1["type"] = sfge::ComponentType::BODY2D;
+	rigidBodyJson1["body_type"] = p2BodyType::DYNAMIC;
+
+	circleColliderJson;
+	circleColliderJson["name"] = "Circle Collider";
+	circleColliderJson["type"] = sfge::ComponentType::COLLIDER2D;
+	circleColliderJson["collider_type"] = sfge::ColliderType::CIRCLE;
+	circleColliderJson["radius"] = 70;
+	circleColliderJson["sensor"] = false;
+
+	//entities[0]["components"] = { transformJson1, circleShapeJson, rigidBodyJson1, circleColliderJson};
+	entityBody3["components"] = { transformJson1, circleShapeJson, rigidBodyJson1, circleColliderJson };
+
+	sceneJson["entities"] = { entityBody1, entityBody2, entityBody3 };
 	sceneJson["systems"] = json::array({
 			{
-				{"systemClassName", "AABBTest"}
+				{"systemClassName", "GravityTest"}
 			}
 		}
 	);
@@ -444,7 +537,7 @@ TEST(Final, BodyGravity)
 	engine.Start();
 }
 
-TEST(Final, AABBContact)
+TEST(FinalNotWorking, AABBContact)
 {
 	// 4 body with different gravity
 	sfge::Engine engine;
@@ -455,11 +548,12 @@ TEST(Final, AABBContact)
 	auto* sceneManager = engine.GetSceneManager();
 
 	json sceneJson;
+	sceneJson["name"] = "AABBContact";
 
 	sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
 	sceneJson["systems"] = json::array({
 			{
-				{"systemClassName", "AABBTest"}
+				{"systemClassName", "ContactAABB"}
 			}
 		}
 	);
@@ -467,7 +561,7 @@ TEST(Final, AABBContact)
 	engine.Start();
 }
 
-TEST(Final, QuadTree)
+TEST(FinalNotWorking, QuadTree)
 {
 	// 4 body with different gravity
 	sfge::Engine engine;
@@ -478,11 +572,12 @@ TEST(Final, QuadTree)
 	auto* sceneManager = engine.GetSceneManager();
 
 	json sceneJson;
+	sceneJson["name"] = "QuadTree";
 
 	sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
 	sceneJson["systems"] = json::array({
 			{
-				{"systemClassName", "AABBTest"}
+				{"systemClassName", "QuadTreeTest"}
 			}
 		}
 	);
@@ -490,7 +585,7 @@ TEST(Final, QuadTree)
 	engine.Start();
 }
 
-TEST(Final, CollisionDetection)
+TEST(FinalNotWorking, CollisionDetection)
 {
 	// 4 body with different gravity
 	sfge::Engine engine;
@@ -501,11 +596,12 @@ TEST(Final, CollisionDetection)
 	auto* sceneManager = engine.GetSceneManager();
 
 	json sceneJson;
+	sceneJson["name"] = "CollisionDetection";
 
 	sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
 	sceneJson["systems"] = json::array({
 			{
-				{"systemClassName", "AABBTest"}
+				{"systemClassName", "ContactCirclesTest"}
 			}
 		}
 	);
@@ -513,7 +609,7 @@ TEST(Final, CollisionDetection)
 	engine.Start();
 }
 
-TEST(Final, CollisionCirclePlan)
+TEST(FinalNotWorking, CollisionCirclePlan)
 {
 	// 4 body with different gravity
 	sfge::Engine engine;
@@ -524,11 +620,12 @@ TEST(Final, CollisionCirclePlan)
 	auto* sceneManager = engine.GetSceneManager();
 
 	json sceneJson;
+	sceneJson["name"] = "CollisionCirclePlan";
 
 	sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
 	sceneJson["systems"] = json::array({
 			{
-				{"systemClassName", "AABBTest"}
+				{"systemClassName", "BallFallingTest"}
 			}
 		}
 	);
@@ -536,7 +633,7 @@ TEST(Final, CollisionCirclePlan)
 	engine.Start();
 }
 
-TEST(Final, CollisionCircleCircle)
+TEST(FinalNotWorking, CollisionCircleCircle)
 {
 	// 4 body with different gravity
 	sfge::Engine engine;
@@ -547,11 +644,12 @@ TEST(Final, CollisionCircleCircle)
 	auto* sceneManager = engine.GetSceneManager();
 
 	json sceneJson;
+	sceneJson["name"] = "CollisionCircleCircle";
 
 	sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
 	sceneJson["systems"] = json::array({
 			{
-				{"systemClassName", "AABBTest"}
+				{"systemClassName", "CollisionCircleTest"}
 			}
 		}
 	);

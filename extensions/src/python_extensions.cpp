@@ -28,8 +28,10 @@ SOFTWARE.
 #include <extensions/python_extensions.h>
 #include <extensions/planet_system.h>
 #include <extensions/aabb_test.h>
+#include <extensions/gravity_test.h>
 
 #include <tools/tools_pch.h>
+
 
 namespace sfge::ext
 {
@@ -46,6 +48,10 @@ void ExtendPython(py::module& m)
 	py::class_<AABBTest, System> aabbTest(m, "AABBTest");
 	aabbTest
 		.def(py::init<Engine&>());
+
+	/*py::class_<GravityTest, System> gravityTest(m, "GravityTest");
+	gravityTest
+		.def(py::init<Engine&>());*/
 	
 
 	tools::ExtendPythonTools(m);

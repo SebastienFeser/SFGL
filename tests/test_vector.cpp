@@ -28,7 +28,7 @@ SOFTWARE.
 #include <utility/json_utility.h>
 #include <gtest/gtest.h>
 
-TEST(Physics, TestVector) //TEST = Structure de donnée qui définit un test
+TEST(Final, TestVector) //TEST = Structure de donnée qui définit un test
 {
     sfge::Engine engine; //Creation d'une instance engine
     std::unique_ptr<sfge::Configuration> initConfig = std::make_unique<sfge::Configuration>(); //Création d'un unique pointer initConfig (qui est un nouvel objet)

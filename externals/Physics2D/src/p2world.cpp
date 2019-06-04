@@ -51,7 +51,7 @@ void p2World::Step(float dt)
 		{
 
 			p2Vec2 bodyLinearVelocity = body.GetLinearVelocity();
-			body.SetLinearVelocity(bodyLinearVelocity + (this->m_Gravity * dt));
+			body.SetLinearVelocity(bodyLinearVelocity + (this->m_Gravity * dt *body.GetGravityMultiplier()));
 			body.SetPosition(body.GetPosition() + body.GetLinearVelocity());
 		}
 		

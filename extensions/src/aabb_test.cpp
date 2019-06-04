@@ -113,7 +113,7 @@ namespace sfge::ext
 		for (auto& body : m_Bodies)
 		{
 			DrawAABB(*body->GetColliders(), sf::Color::Cyan);
-			for (p2Collider &element : *body->GetColliders())
+			/*for (p2Collider &element : *body->GetColliders())
 			{
 
 				std::cout << "Top Right: (" << element.GetAABB().topRight.x << ",";
@@ -129,7 +129,7 @@ namespace sfge::ext
 				std::cout << element.GetAABB().bottomLeft.y << ") \n \n";
 
 				std::cout << contact << "\n \n";
-			}
+			}*/
 			
 		}
 

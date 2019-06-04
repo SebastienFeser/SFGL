@@ -55,24 +55,13 @@ namespace sfge::ext
 			const auto body = m_BodyManager->GetComponentPtr(entity);
 			m_Bodies.push_back(body->GetBody());
 		}
-
+		float speed = 1.0;
 		for (auto& body : m_Bodies)
 		{
-			body->SetLinearVelocity(p2Vec2(0.1,0.1));
+			body->SetGravityMultiplier(speed);
+			speed / 2;
 		}
-
-		for (auto& body : m_Bodies )
-		{
-			for (auto& body2 : m_Bodies)
-			{
-				p2ContactManager contactManager;
-				if (contactManager.CheckAABBContact(*body, *body2))
-				{
-					contact = true;
-				}
-
-			}
-		}
+		
 	}
 
 	void GravityTest::OnUpdate(float dt)
@@ -83,26 +72,6 @@ namespace sfge::ext
 
 	void GravityTest::OnFixedUpdate()
 	{
-		for (auto& element : m_Bodies)
-		{
-			if (element->GetPosition().x > maximumPosition.x)
-			{
-				element->SetLinearVelocity(p2Vec2(-element->GetLinearVelocity().x, element->GetLinearVelocity().y));
-			};
-			if(element->GetPosition().x < minimumPosition.x)
-			{
-				element->SetLinearVelocity(p2Vec2(-element->GetLinearVelocity().x, element->GetLinearVelocity().y));
-			}
-			if(element->GetPosition().y > maximumPosition.y)
-			{
-				element->SetLinearVelocity(p2Vec2(element->GetLinearVelocity().x, -element->GetLinearVelocity().y));
-			}
-			if(element->GetPosition().y < minimumPosition.y)
-			{
-				element->SetLinearVelocity(p2Vec2(element->GetLinearVelocity().x, -element->GetLinearVelocity().y));
-			}
-
-		}
 		rmt_ScopedCPUSample(PlanetSystemFixedUpdate,0);
 	}
 
@@ -110,49 +79,7 @@ namespace sfge::ext
 	{
 		rmt_ScopedCPUSample(PlanetSystemDraw,0);
 
-		for (auto& body : m_Bodies)
-		{
-			DrawAABB(*body->GetColliders(), sf::Color::Cyan);
-			for (p2Collider &element : *body->GetColliders())
-			{
-
-				std::cout << "Top Right: (" << element.GetAABB().topRight.x << ",";
-				std::cout << element.GetAABB().topRight.y << ") \n";
-
-				std::cout << "Bottom Right: (" << element.GetAABB().bottomRight.x << ",";
-				std::cout << element.GetAABB().bottomRight.y << ") \n";
-
-				std::cout << "Top Left: (" << element.GetAABB().topLeft.x << ",";
-				std::cout << element.GetAABB().topLeft.y << ") \n";
-
-				std::cout << "Bottom Left: (" << element.GetAABB().bottomLeft.x << ",";
-				std::cout << element.GetAABB().bottomLeft.y << ") \n \n";
-
-				std::cout << contact << "\n \n";
-			}
-			
-		}
-
-		if (contact)
-		{
-			m_GraphicsManager->DrawLine(Vec2f(0, 0), Vec2f(400, 400), sf::Color::White);
-			contact = false;
-		}
+	
 	}
 
-	void GravityTest::DrawAABB(std:: vector<p2Collider> colliders, sf::Color color)
-	{
-		for (p2Collider& element : colliders)
-		{
-			m_GraphicsManager->DrawLine(meter2pixel(element.GetAABB().topRight), meter2pixel(element.GetAABB().topLeft), color);
-			m_GraphicsManager->DrawLine(meter2pixel(element.GetAABB().bottomLeft), meter2pixel(element.GetAABB().topLeft), color);
-			m_GraphicsManager->DrawLine(meter2pixel(element.GetAABB().bottomLeft), meter2pixel(element.GetAABB().bottomRight), color);
-			m_GraphicsManager->DrawLine(meter2pixel(element.GetAABB().bottomRight), meter2pixel(element.GetAABB().topRight), color);
-		}
-		/*m_GraphicsManager->DrawLine(meter2pixel(aabb.topRight), meter2pixel(aabb.topLeft), color);
-		m_GraphicsManager->DrawLine(meter2pixel(aabb.bottomLeft), meter2pixel(aabb.topLeft), color);
-		m_GraphicsManager->DrawLine(meter2pixel(aabb.bottomLeft), meter2pixel(aabb.bottomRight), color);
-		m_GraphicsManager->DrawLine(meter2pixel(aabb.bottomRight), meter2pixel(aabb.topRight), color);*/
-
-	}
 }

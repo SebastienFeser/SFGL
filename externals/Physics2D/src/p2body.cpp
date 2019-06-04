@@ -88,6 +88,16 @@ float p2Body::GetMass() const
 	return 1.0f;
 }
 
+void p2Body::SetGravityMultiplier(float multiplier)
+{
+	gravityMultiplier = multiplier;
+}
+
+float p2Body::GetGravityMultiplier()
+{
+	return  gravityMultiplier;
+}
+
 /*p2AABB p2Body::GetAABB() const
 {
 	return aabb;

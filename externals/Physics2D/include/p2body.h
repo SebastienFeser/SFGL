@@ -84,6 +84,10 @@ public:
 	float GetMass() const;
 	//p2AABB GetAABB() const;
 
+	void SetGravityMultiplier(float multiplier);
+	float GetGravityMultiplier();
+
+
 	std::vector<p2Collider>* GetColliders();
 
 private:
@@ -92,6 +96,7 @@ private:
 	p2Vec2 linearVelocity;
 	p2BodyType type;
 	float angularVelocity;
+	float gravityMultiplier = 1;
 
 	int m_ColliderIndex = 0;
 	std::vector<p2Collider> m_Colliders;
