@@ -37,6 +37,18 @@ p2Vec2::p2Vec2(float x, float y)
 	this->y = y;
 }
 
+bool p2Vec2::operator!=(const p2Vec2& rhs) const
+{
+	if (this->x == rhs.x && this->y == rhs.y)
+	{
+		return  false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
 p2Vec2 p2Vec2::operator+(const p2Vec2& v) const
 {
 	return p2Vec2(x + v.x, y + v.y);

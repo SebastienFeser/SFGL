@@ -40,9 +40,9 @@ p2Collider * p2Contact::GetColliderB()
 	return colliderB;
 }
 
-p2ContactManager::p2ContactManager(p2Contact* contact)
+p2ContactManager::p2ContactManager(p2ContactListener* contact)
 {
-	this->contact = contact;
+	this->contactListener = contact;
 }
 p2ContactManager::p2ContactManager()
 {
@@ -53,6 +53,8 @@ p2ContactManager::p2ContactManager()
 bool p2ContactManager::CheckAABBContact(p2Body &bodyA, p2Body &bodyB)
 {
 	bool isContact = false;
+	bool isContactCircle = false;
+
 
 	for (p2Collider bodyBElement : *bodyB.GetColliders())
 	{
@@ -116,12 +118,11 @@ bool p2ContactManager::CheckAABBContact(p2Body &bodyA, p2Body &bodyB)
 			{
 				isContact = true;
 			}
-			return  isContact;
-			/*if (isContact)
+			if (isContact)
 			{
-				CheckCollision(bodyA, bodyB, bodyAElement, bodyBElement);
-				break;
-			}*/
+				isContactCircle = CheckCollision(bodyA, bodyB, bodyAElement, bodyBElement);
+			}
+			return isContactCircle;
 		}
 	}
 
@@ -130,44 +131,112 @@ bool p2ContactManager::CheckAABBContact(p2Body &bodyA, p2Body &bodyB)
 	
 }
 
-void p2ContactManager::CheckCollision(p2Body bodyA, p2Body bodyB, p2Collider colliderA, p2Collider colliderB)
+bool p2ContactManager::CheckCollision(p2Body &bodyA, p2Body &bodyB, p2Collider colliderA, p2Collider colliderB)
 {
-	/*// CIRCLE : CIRCLE
-	if (colliderA.GetShape() == p2ColliderType::CIRCLE && colliderB.GetShape() == p2ColliderType::CIRCLE)
+	bool contact = false;
+	// CIRCLE : CIRCLE
+	if (colliderA.GetColliderType() == p2ColliderType::CIRCLE && colliderB.GetColliderType() == p2ColliderType::CIRCLE)
 	{
-		
+		contact = CollisionCircleCircle(bodyA, bodyB);
 	}
 	//CIRCLE : RECT
-	else if(colliderA.GetShape() == p2ColliderType::CIRCLE && colliderB.GetShape() == p2ColliderType::RECT)
+	else if(colliderA.GetColliderType() == p2ColliderType::CIRCLE && colliderB.GetColliderType() == p2ColliderType::RECT)
 	{
-		
+		CollisionCircleRect(bodyA,bodyB);
 	}
 	//RECT : CIRCLE
-	else if(colliderA.GetShape() == p2ColliderType::RECT && colliderB.GetShape() == p2ColliderType::CIRCLE)
+	else if(colliderA.GetColliderType() == p2ColliderType::RECT && colliderB.GetColliderType() == p2ColliderType::CIRCLE)
 	{
-		
+		CollisionCircleRect(bodyB,bodyA);
 	}
 	//RECT : RECT
-	else if(colliderA.GetShape() == p2ColliderType::RECT && colliderB.GetShape() == p2ColliderType::RECT)
+	else if(colliderA.GetColliderType() == p2ColliderType::RECT && colliderB.GetColliderType() == p2ColliderType::RECT)
 	{
-		
-	}*/
+		CollisionRectRect(bodyA, bodyB);
+	}
+	return contact;
 }
 
-void p2ContactManager::CollisionSquareSquare(p2Body bodyA, p2Body bodyB)
+void p2ContactManager::CollisionRectRect(p2Body &bodyA, p2Body &bodyB)
 {
-	
+	/*p2Collider *colliderA;
+	p2Collider *colliderB;
+
+	for (p2Collider element : *bodyA.GetColliders())
+	{
+		if (element.GetShape() != nullptr)
+		{
+			colliderA = &element;
+		}
+	}
+
+	for (p2Collider element : *bodyB.GetColliders())
+	{
+		if (element.GetShape() != nullptr)
+		{
+			colliderB = &element;
+		}
+	}
+
+	p2Vec2 axis11;
+	p2Vec2 axis12;
+	p2Vec2 axis21;
+	p2Vec2 axis22;*/
+
+	CollisionCorrectionRectRect(bodyA, bodyB);
 }
 
-void p2ContactManager::CollisionCircleSquare(p2Body bodyCircle, p2Body bodySquare)
+void p2ContactManager::CollisionCircleRect(p2Body &bodyCircle, p2Body &bodySquare)
 {
 
 }
 
-void p2ContactManager::CollisionCircleCircle(p2Body bodyA, p2Body bodyB)
+bool p2ContactManager::CollisionCircleCircle(p2Body &bodyA, p2Body &bodyB)
 {
+	bool collision = false;
 	float distanceCenterCenter;
 	float additionTwoRadius;
+	float radiusA;
+	float radiusB;
+
+	//Get the 2 radius
+	for (p2Collider element : *bodyA.GetColliders())
+	{
+		if (element.GetShape() != nullptr)
+		{
+			p2CircleShape* circleshapeA = dynamic_cast<p2CircleShape*>(element.GetShape());
+			if (circleshapeA != nullptr)
+			{
+				additionTwoRadius = circleshapeA->GetRadius();
+				radiusA = circleshapeA->GetRadius();
+			}
+		}
+	}
+
+	for (p2Collider element : *bodyB.GetColliders())
+	{
+		if (element.GetShape() != nullptr)
+		{
+			p2CircleShape* circleshapeB = dynamic_cast<p2CircleShape*>(element.GetShape());
+			if (circleshapeB != nullptr)
+			{
+				additionTwoRadius += circleshapeB->GetRadius();
+				radiusB = circleshapeB->GetRadius();
+			}
+		}
+	}
+
+	//Calculate Distance A, B
+	float distanceX;
+	float distanceY;
+
+	distanceX = bodyB.GetPosition().x - bodyA.GetPosition().x;
+	distanceY = bodyB.GetPosition().y - bodyA.GetPosition().y;
+
+	distanceCenterCenter = sqrt(pow(distanceX, 2) + pow(distanceY, 2));
+	
+
+
 
 	for (auto& element : *bodyA.GetColliders())
 	{
@@ -175,10 +244,90 @@ void p2ContactManager::CollisionCircleCircle(p2Body bodyA, p2Body bodyB)
 	}
 	if (distanceCenterCenter < additionTwoRadius)
 	{
-		//There's Collision
+		collision = true;
+
+		if (bodyA.GetType() == p2BodyType::KINEMATIC && bodyB.GetType() == p2BodyType::KINEMATIC)
+		{
+			//There's Collision
+		}
+		else
+		{
+			CollisionCorrectionCircleCircle(bodyA, bodyB, distanceCenterCenter, radiusA, radiusB);
+		}
 	}
-	else
+	return collision;
+}
+
+void p2ContactManager::CollisionCorrectionRectRect(p2Body &bodyA, p2Body &bodyB)
+{
+	p2Vec2 axis1 = p2Vec2(1,0);
+	p2Vec2 axis2 = p2Vec2(0,1);
+
+	bodyA.SetLinearVelocity(p2Vec2(0, 0));
+	bodyB.SetLinearVelocity(p2Vec2(0, 0));
+}
+
+void p2ContactManager::CollisionCorrectionCircleRect(p2Body bodyCircle, p2Body bodyRect)
+{
+
+}
+
+void p2ContactManager::CollisionCorrectionCircleCircle(p2Body &bodyA, p2Body &bodyB, float distanceCenterCenter, float radiusA, float radiusB)
+{
+	//Calculate distance between 2 circles center
+		//DONE
+	//Calculate the distance from the first circle center to the intersection line
+
+
+	
+	
+	float distBodyACollision;
+	float distBodyBCollision;
+
+	distBodyACollision = (pow(radiusA, 2) - pow(radiusB, 2) + pow(distanceCenterCenter, 2)) / (2 * distanceCenterCenter);
+	distBodyBCollision = distanceCenterCenter - distBodyACollision;
+
+	p2Vec2 pointIntersection = bodyA.GetPosition() + (((bodyB.GetPosition() - bodyA.GetPosition()) / distanceCenterCenter) * distBodyACollision);
+
+	//P2 = P0 + a ( P1 - P0 ) / d
+	p2Vec2 collisionCenterPoint = bodyA.GetPosition() + (bodyB.GetPosition() - bodyA.GetPosition()) * distBodyACollision / distanceCenterCenter;
+
+	if (bodyA.GetType() == p2BodyType::DYNAMIC)
 	{
-		//Not Collision
+		float distToRemoveA = radiusB - distBodyBCollision;
+		float distToRemoveB = radiusA - distBodyACollision;
+		p2Vec2 vecAB = p2Vec2(bodyB.GetPosition().x - bodyA.GetPosition().x, bodyB.GetPosition().y - bodyA.GetPosition().y) ;
+		p2Vec2 vecBA = p2Vec2(bodyA.GetPosition().x - bodyB.GetPosition().x, bodyA.GetPosition().y - bodyB.GetPosition().y);
+
+		p2Vec2 vecToRemoveA = vecAB.Normalized() * distToRemoveA;
+		p2Vec2 vecToRemoveB = vecBA.Normalized() * distToRemoveB;
+
+
+		if (bodyA.GetLinearVelocity() != p2Vec2(0, 0) && bodyB.GetLinearVelocity() != p2Vec2(0, 0))
+		{
+			bodyA.SetPosition(bodyA.GetPosition() + vecToRemoveA);
+			bodyB.SetPosition(bodyB.GetPosition() + vecToRemoveB);
+		}
+
+		bodyA.SetLinearVelocity(p2Vec2(0, 0));
+		bodyB.SetLinearVelocity(p2Vec2(0, 0));
+
+		if (bodyB.GetType() == p2BodyType::DYNAMIC)
+		{
+			
+		}
+		else if (bodyB.GetType() == p2BodyType::STATIC)
+		{
+			
+		}
+	}
+	else if (bodyB.GetType() == p2BodyType::DYNAMIC)
+	{
+		
+		if (bodyA.GetType() == p2BodyType::STATIC)
+		{
+
+		}
 	}
 }
+

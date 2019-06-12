@@ -49,9 +49,9 @@ void ExtendPython(py::module& m)
 	aabbTest
 		.def(py::init<Engine&>());
 
-	/*py::class_<GravityTest, System> gravityTest(m, "GravityTest");
+	py::class_<GravityTest, System> gravityTest(m, "GravityTest");
 	gravityTest
-		.def(py::init<Engine&>());*/
+		.def(py::init<Engine&>());
 	
 
 	tools::ExtendPythonTools(m);

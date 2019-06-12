@@ -209,6 +209,7 @@ void ShapeManager::CreateComponent(json& componentJson, Entity entity)
 			auto circleShape = std::make_unique <sf::CircleShape>();
 			circleShape->setRadius (radius);
 			circleShape->setOrigin (radius, radius);
+			circleShape->setFillColor(sf::Color(255, 255, 255, 155));
 			shape.SetShape (std::move(circleShape));
 			shape.Update ();
 		}

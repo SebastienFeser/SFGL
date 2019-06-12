@@ -21,41 +21,50 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+#ifndef SFGE_AABB_TEST
+#define SFGE_AABB_TEST
 
-#include <p2shape.h>
+#include <engine/system.h>
+#include <graphics/graphics2d.h>
+#include "p2body.h"
 
-void p2Shape::Rotate()
+
+namespace sfge
 {
+	struct Transform2d;
+	class Transform2dManager;
+	class Body2dManager;
+	class TextureManager;
+	class SpriteManager;
+}
+namespace sfge::ext
+{
+
+
+	class CollisionRectRect : public System
+	{
+	public:
+		CollisionRectRect(Engine& engine);
+
+		void OnEngineInit() override;
+
+		void OnUpdate(float dt) override;
+
+		void OnFixedUpdate() override;
+
+		void OnDraw() override;
+
+	private:
+
+		void DrawAABB(std::vector<p2Collider> colliders, sf::Color color);
+
+		Graphics2dManager* m_GraphicsManager;
+		Body2dManager* m_BodyManager;
+
+		std::vector<Entity> m_Entities;
+		std::vector<p2Body*> m_Bodies;
+		bool isContact = false;
+	};
 }
 
-p2CircleShape::p2CircleShape(float radius) : p2Shape()
-{
-	type = ShapeType::CIRCLE;
-	m_Radius = radius;
-}
-
-void p2CircleShape::SetRadius(float radius)
-{
-	m_Radius = radius;
-}
-
-float p2CircleShape::GetRadius() const
-{
-	return m_Radius;
-}
-
-p2RectShape::p2RectShape(p2Vec2 size)
-{
-	type = ShapeType::RECT;
-	m_Size = size;
-}
-
-void p2RectShape::SetSize(p2Vec2 size)
-{
-	m_Size = size;
-}
-
-p2Vec2 p2RectShape::GetSize() const
-{
-	return m_Size;
-}
+#endif

@@ -59,7 +59,7 @@ public:
 class p2ContactManager
 {
 public:
-	p2ContactManager(p2Contact* contact);
+	p2ContactManager(p2ContactListener* contact);
 	p2ContactManager();
 
 	/**
@@ -69,21 +69,28 @@ public:
 	/**
 	 *\brief check if there's a collision between the two objects colliders
 	 */
-	void CheckCollision(p2Body bodyA, p2Body bodyB, p2Collider colliderA, p2Collider colliderB);
+	bool CheckCollision(p2Body &bodyA, p2Body &bodyB, p2Collider colliderA, p2Collider colliderB);
 
 	/**
 	 *\brief check the collision between 2 quares
 	 */
-	void CollisionSquareSquare(p2Body bodyA, p2Body bodyB);
+	void CollisionRectRect(p2Body &bodyA, p2Body &bodyB);
 	/**
 	 *\brief check the collision between 1 circles and 1 square
 	 */
-	void CollisionCircleSquare(p2Body bodyCircle, p2Body bodySquare);
+	void CollisionCircleRect(p2Body &bodyCircle, p2Body &bodySquare);
 	/**
 	 *\brief check the collision between 2 circles
 	 */
-	void CollisionCircleCircle(p2Body bodyA, p2Body bodyB);
+	bool CollisionCircleCircle(p2Body &bodyA, p2Body &bodyB);
+
+	void CollisionCorrectionRectRect(p2Body &bodyA, p2Body &bodyB);
+
+	void CollisionCorrectionCircleRect(p2Body bodyCircle, p2Body bodyRect);
+
+	void CollisionCorrectionCircleCircle(p2Body &bodyA, p2Body &bodyB, float distanceCenterCenter, float radiusA, float radiusB);
+
 private:
-	p2Contact* contact;
+	p2ContactListener* contactListener;
 };
 #endif

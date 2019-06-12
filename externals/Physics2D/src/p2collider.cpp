@@ -83,3 +83,8 @@ p2AABB p2Collider::GetAABB()
 	return aabb;
 }
 
+p2ColliderType p2Collider::GetColliderType()
+{
+	return m_ColliderType;
+}
+

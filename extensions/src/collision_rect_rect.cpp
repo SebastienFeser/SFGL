@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <extensions/aabb_test.h>
+#include <extensions/collision_rect_rect.h>
 #include <engine/engine.h>
 #include <graphics/graphics2d.h>
 #include <physics/body2d.h>
@@ -36,12 +36,12 @@ const p2Vec2 maximumPosition = p2Vec2(13, 7);
 
 namespace sfge::ext
 {
-	AABBTest::AABBTest(Engine& engine):
+	CollisionRectRect::CollisionRectRect(Engine& engine):
 		System(engine)
 	{
 	}
 
-	void AABBTest::OnEngineInit()
+	void CollisionRectRect::OnEngineInit()
 	{
 		m_GraphicsManager = m_Engine.GetGraphics2dManager();
 		m_BodyManager = m_Engine.GetPhysicsManager()->GetBodyManager();
@@ -63,13 +63,13 @@ namespace sfge::ext
 		
 	}
 
-	void AABBTest::OnUpdate(float dt)
+	void CollisionRectRect::OnUpdate(float dt)
 	{
 		(void)dt;
 	}
 
 
-	void AABBTest::OnFixedUpdate()
+	void CollisionRectRect::OnFixedUpdate()
 	{
 		for (auto& element : m_Bodies)
 		{
@@ -109,7 +109,7 @@ namespace sfge::ext
 		rmt_ScopedCPUSample(PlanetSystemFixedUpdate,0);
 	}
 
-	void AABBTest::OnDraw()
+	void CollisionRectRect::OnDraw()
 	{
 		rmt_ScopedCPUSample(PlanetSystemDraw,0);
 
@@ -143,7 +143,7 @@ namespace sfge::ext
 		}*/
 	}
 
-	void AABBTest::DrawAABB(std:: vector<p2Collider> colliders, sf::Color color)
+	void CollisionRectRect::DrawAABB(std:: vector<p2Collider> colliders, sf::Color color)
 	{
 		for (p2Collider& element : colliders)
 		{

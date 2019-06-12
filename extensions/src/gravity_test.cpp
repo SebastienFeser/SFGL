@@ -24,16 +24,15 @@ SOFTWARE.
 
 #include <extensions/gravity_test.h>
 #include <engine/engine.h>
-#include <graphics/graphics2d.h>
+//#include <graphics/graphics2d.h>
 #include <physics/body2d.h>
 #include <physics/physics2d.h>
-#include <p2contact.h>
 
 #include <iostream>
 
 const p2Vec2 minimumPosition = p2Vec2(0, 0);
 const p2Vec2 maximumPosition = p2Vec2(13, 7);
-bool contact;
+//bool contact;
 
 namespace sfge::ext
 {
@@ -59,7 +58,7 @@ namespace sfge::ext
 		for (auto& body : m_Bodies)
 		{
 			body->SetGravityMultiplier(speed);
-			speed / 2;
+			speed/= 2;
 		}
 		
 	}

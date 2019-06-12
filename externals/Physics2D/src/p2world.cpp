@@ -101,4 +101,5 @@ p2Body * p2World::CreateBody(p2BodyDef* bodyDef)
 
 void p2World::SetContactListener(p2ContactListener * contactListener)
 {
+	contact_manager = p2ContactManager(contactListener);
 }

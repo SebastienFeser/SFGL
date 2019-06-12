@@ -57,6 +57,7 @@ private:
 	//p2QuadTree m_QuadTree;
 	std::vector<p2Body> m_Bodies;
 	int m_BodyIndex = 0;
+	p2ContactManager contact_manager;
 };
 
 #endif

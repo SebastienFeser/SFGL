@@ -365,7 +365,7 @@ TEST(Final, ShowAABB)
 	json rigidBodyJson1;
 	rigidBodyJson1["name"] = "Rigidbody";
 	rigidBodyJson1["type"] = sfge::ComponentType::BODY2D;
-	rigidBodyJson1["body_type"] = p2BodyType::KINEMATIC;
+	rigidBodyJson1["body_type"] = p2BodyType::DYNAMIC;
 
 	json circleColliderJson;
 	circleColliderJson["name"] = "Circle Collider";
@@ -394,7 +394,7 @@ TEST(Final, ShowAABB)
 	rigidBodyJson1;
 	rigidBodyJson1["name"] = "Rigidbody";
 	rigidBodyJson1["type"] = sfge::ComponentType::BODY2D;
-	rigidBodyJson1["body_type"] = p2BodyType::KINEMATIC;
+	rigidBodyJson1["body_type"] = p2BodyType::DYNAMIC;
 
 	circleColliderJson;
 	circleColliderJson["name"] = "Circle Collider";

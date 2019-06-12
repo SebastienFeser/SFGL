@@ -73,12 +73,13 @@ public:
 	void SetUserData(void* colliderData);
 	void RebuildAABB(p2Vec2 position);
 	p2AABB GetAABB();
+	p2ColliderType GetColliderType();
 private:
 	p2AABB aabb;
 	void* userData = nullptr;
 	p2ColliderDef colliderDefinition;
 	p2ColliderType m_ColliderType;
-	p2Shape* m_Shape;
+	p2Shape* m_Shape = nullptr;
 	p2Vec2 halfExtend; //Half size of collider
 };
 
