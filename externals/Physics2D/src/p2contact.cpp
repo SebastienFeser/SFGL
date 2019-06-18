@@ -441,11 +441,15 @@ void p2ContactManager::CollisionCorrectionCircleCircle(p2Body& bodyA, p2Body& bo
 			bodyB.SetPosition(bodyB.GetPosition() - vecToRemoveB);
 		}
 
-		p2Vec2 bodyASpeed = ((bodyB.GetLinearVelocity() - bodyA.GetLinearVelocity()) + bodyA.GetLinearVelocity() + bodyB.GetLinearVelocity())/2;
-		p2Vec2 bodyBSpeed = ((bodyA.GetLinearVelocity() - bodyB.GetLinearVelocity()) + bodyA.GetLinearVelocity() + bodyB.GetLinearVelocity())/2;
+		bodyA.SetLinearVelocity(bodyA.GetLinearVelocity() - vecToRemoveA.Normalized() * 2 * (p2Vec2::Dot(bodyA.GetLinearVelocity(), vecToRemoveA.Normalized())));
+		bodyB.SetLinearVelocity(bodyB.GetLinearVelocity() - vecToRemoveA.Normalized() * 2 * (p2Vec2::Dot(bodyB.GetLinearVelocity(), vecToRemoveA.Normalized())));
 
-		bodyA.SetLinearVelocity(bodyASpeed);
-		bodyB.SetLinearVelocity(bodyBSpeed);
+
+		//p2Vec2 bodyASpeed = ((bodyB.GetLinearVelocity() - bodyA.GetLinearVelocity()) + bodyA.GetLinearVelocity() + bodyB.GetLinearVelocity())/2;
+		//p2Vec2 bodyBSpeed = ((bodyA.GetLinearVelocity() - bodyB.GetLinearVelocity()) + bodyA.GetLinearVelocity() + bodyB.GetLinearVelocity())/2;
+
+		//bodyA.SetLinearVelocity(bodyASpeed);
+		//bodyB.SetLinearVelocity(bodyBSpeed);
 		//bodyA.SetLinearVelocity(p2Vec2(0, 0));
 		//bodyB.SetLinearVelocity(p2Vec2(0, 0));
 
