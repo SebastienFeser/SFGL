@@ -103,7 +103,7 @@ void p2QuadTree::Insert(p2Body * obj)
 		{
 			Split();
 			//Dispatch the gameObjects in the children
-			std::list<p2Body*> m_Objects_Copy = m_Objects;
+			std::vector<p2Body*> m_Objects_Copy = m_Objects;
 			m_Objects.clear();
 			for (p2Body* element : m_Objects_Copy)
 			{
@@ -160,14 +160,22 @@ void p2QuadTree::Retrieve()			//Create a list of the lists of the objects that c
 {
 	if (nodes == nullptr)
 	{
-		for (auto& element : m_Objects)
+		for (int i = 0; i < m_Objects.size(); i++)
+		{
+			for (int j = i; i < m_Objects.size(); i++)
+			{
+				//Check AABBCollision
+			}
+		}
+
+		/*for (auto& element : m_Objects)
 		{
 			for (auto& element : m_Objects)
 			{
 				//Check AABB Collision
 			}
 			m_Objects.remove(element);
-		}
+		}*/
 	}
 	else
 	{

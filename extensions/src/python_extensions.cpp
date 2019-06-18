@@ -29,6 +29,7 @@ SOFTWARE.
 #include <extensions/planet_system.h>
 #include <extensions/aabb_test.h>
 #include <extensions/gravity_test.h>
+#include <extensions/collision_rect_rect.h>
 
 #include <tools/tools_pch.h>
 
@@ -51,6 +52,10 @@ void ExtendPython(py::module& m)
 
 	py::class_<GravityTest, System> gravityTest(m, "GravityTest");
 	gravityTest
+		.def(py::init<Engine&>());
+
+	py::class_<CollisionRectRect, System> collisionRectRect(m, "CollisionSquareSquare");
+	collisionRectRect
 		.def(py::init<Engine&>());
 	
 

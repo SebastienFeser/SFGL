@@ -63,7 +63,7 @@ namespace sfge::ext
 
 		std::vector<Entity> m_Entities;
 		std::vector<p2Body*> m_Bodies;
-		bool isContact = false;
+		//bool isContact = false;
 	};
 }
 

@@ -105,17 +105,17 @@ float p2Vec2::GetMagnitude() const
 
 p2Vec2 p2Vec2::Normalized()
 {
-	return p2Vec2(this->y, -(this->x));
+	return p2Vec2(this->x/GetMagnitude(), this->y/GetMagnitude());
 }
 
 void p2Vec2::NormalizeSelf()
 {
 	float x;
 	float y;
-	x = this->y;
-	y = -this->x;
-	this->x = x;
-	this->y = y;
+	x = this->x;
+	y = this->y;
+	this->x = x/GetMagnitude();
+	this->y = y/GetMagnitude();
 }
 
 p2Vec2 p2Vec2::Rotate(float angle) const

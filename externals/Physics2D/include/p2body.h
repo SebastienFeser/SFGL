@@ -90,6 +90,8 @@ public:
 
 	std::vector<p2Collider>* GetColliders();
 
+	int GetColliderIndex();
+
 private:
 	//p2AABB aabb;
 	p2Vec2 position;

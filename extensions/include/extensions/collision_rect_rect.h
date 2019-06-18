@@ -21,8 +21,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-#ifndef SFGE_AABB_TEST
-#define SFGE_AABB_TEST
+#ifndef SFGE_COLLISION_RECT_RECT
+#define SFGE_COLLISION_RECT_RECT
 
 #include <engine/system.h>
 #include <graphics/graphics2d.h>
@@ -63,7 +63,7 @@ namespace sfge::ext
 
 		std::vector<Entity> m_Entities;
 		std::vector<p2Body*> m_Bodies;
-		bool isContact = false;
+		//bool isContact = false;
 	};
 }
 

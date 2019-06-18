@@ -107,3 +107,8 @@ std::vector<p2Collider>* p2Body::GetColliders()
 {
 	return &m_Colliders;
 }
+
+int p2Body::GetColliderIndex()
+{
+	return m_ColliderIndex;
+}

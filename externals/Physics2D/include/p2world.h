@@ -52,6 +52,7 @@ public:
 	* \brief Set the contact listener
 	*/
 	void SetContactListener(p2ContactListener* contactListener);
+
 private:
 	p2Vec2 m_Gravity;
 	//p2QuadTree m_QuadTree;

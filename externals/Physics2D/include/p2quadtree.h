@@ -75,7 +75,7 @@ private:
 	static const int CHILD_TREE_NMB = 4;
 	int m_NodeLevel = 0;
 	p2QuadTree* nodes[CHILD_TREE_NMB] = { nullptr };
-	std::list<p2Body*> m_Objects;
+	std::vector<p2Body*> m_Objects;
 	p2AABB m_Bounds;
 };
 

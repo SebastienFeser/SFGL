@@ -55,10 +55,16 @@ namespace sfge::ext
 			m_Bodies.push_back(body->GetBody());
 		}
 
-		for (auto& body : m_Bodies)
+		m_Bodies[0]->SetLinearVelocity(p2Vec2(0.2, 0.2));
+		m_Bodies[1]->SetLinearVelocity(p2Vec2(0.2, 0.1));
+
+		/*for (auto& body : m_Bodies)
 		{
-			body->SetLinearVelocity(p2Vec2(0.1,0.1));
-		}
+			for (auto& collider : *body->GetColliders())
+			{
+				collider.RebuildAABB(body->GetPosition());
+			}
+		}*/
 
 		
 	}
@@ -91,13 +97,13 @@ namespace sfge::ext
 			}
 
 		}
-
-		isContact = false;
+		p2ContactManager contactManager;
+		/*isContact = false;
 			for (auto& body : m_Bodies)
 			{
 				for (auto& body2 : m_Bodies)
 				{
-					p2ContactManager contactManager;
+					contactManager;
 					if (contactManager.CheckAABBContact(*body, *body2))
 					{
 						isContact = true;
@@ -105,7 +111,7 @@ namespace sfge::ext
 
 				}
 			}
-			std::cout << isContact;
+			std::cout << isContact;*/
 		rmt_ScopedCPUSample(PlanetSystemFixedUpdate,0);
 	}
 
@@ -131,7 +137,7 @@ namespace sfge::ext
 				std::cout << "Bottom Left: (" << element.GetAABB().bottomLeft.x << ",";
 				std::cout << element.GetAABB().bottomLeft.y << ") \n \n";
 
-				std::cout << contact << "\n \n";
+				//std::cout << contact << "\n \n";
 			}*/
 			
 		}

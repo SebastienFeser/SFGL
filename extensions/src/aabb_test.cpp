@@ -92,7 +92,7 @@ namespace sfge::ext
 
 		}
 
-		isContact = false;
+		/*isContact = false;
 			for (auto& body : m_Bodies)
 			{
 				for (auto& body2 : m_Bodies)
@@ -105,7 +105,7 @@ namespace sfge::ext
 
 				}
 			}
-			std::cout << isContact;
+			std::cout << isContact;*/
 		rmt_ScopedCPUSample(PlanetSystemFixedUpdate,0);
 	}
 

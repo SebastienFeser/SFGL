@@ -65,11 +65,11 @@ public:
 	/**
 	 *\brief Check if there's contact between the colliders AABB
 	 */
-	bool CheckAABBContact(p2Body &bodyA, p2Body &bodyB);
+	void CheckAABBContact(p2Body &bodyA, p2Body &bodyB);
 	/**
 	 *\brief check if there's a collision between the two objects colliders
 	 */
-	bool CheckCollision(p2Body &bodyA, p2Body &bodyB, p2Collider colliderA, p2Collider colliderB);
+	void CheckCollision(p2Body &bodyA, p2Body &bodyB, p2Collider colliderA, p2Collider colliderB);
 
 	/**
 	 *\brief check the collision between 2 quares
@@ -82,9 +82,9 @@ public:
 	/**
 	 *\brief check the collision between 2 circles
 	 */
-	bool CollisionCircleCircle(p2Body &bodyA, p2Body &bodyB);
+	void CollisionCircleCircle(p2Body &bodyA, p2Body &bodyB);
 
-	void CollisionCorrectionRectRect(p2Body &bodyA, p2Body &bodyB);
+	void CollisionCorrectionRectRect(p2Body &bodyA, p2Body &bodyB, p2Vec2 sizeBodyA, p2Vec2 sizeBodyB);
 
 	void CollisionCorrectionCircleRect(p2Body bodyCircle, p2Body bodyRect);
 
@@ -92,5 +92,7 @@ public:
 
 private:
 	p2ContactListener* contactListener;
+	std::vector<p2Contact> contactList;
+	bool isInContact = false;
 };
 #endif

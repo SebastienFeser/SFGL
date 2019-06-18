@@ -63,7 +63,7 @@ namespace sfge::ext
 
 		for (auto& body : m_Bodies )
 		{
-			for (auto& body2 : m_Bodies)
+			/*for (auto& body2 : m_Bodies)
 			{
 				p2ContactManager contactManager;
 				if (contactManager.CheckAABBContact(*body, *body2))
@@ -71,7 +71,7 @@ namespace sfge::ext
 					contact = true;
 				}
 
-			}
+			}*/
 		}
 	}
 

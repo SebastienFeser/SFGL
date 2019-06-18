@@ -61,7 +61,7 @@ namespace sfge::ext
 			body->SetLinearVelocity(p2Vec2(0.1,0.1));
 		}
 
-		for (auto& body : m_Bodies )
+		/*for (auto& body : m_Bodies )
 		{
 			for (auto& body2 : m_Bodies)
 			{
@@ -72,7 +72,7 @@ namespace sfge::ext
 				}
 
 			}
-		}
+		}*/
 	}
 
 	void CollisionCircleTest::OnUpdate(float dt)

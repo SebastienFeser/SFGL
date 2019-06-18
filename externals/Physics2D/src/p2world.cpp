@@ -69,6 +69,7 @@ void p2World::Step(float dt)
 		}
 
 
+
 		// TODO: Apply angular velocity
 		//body.SetLinearVelocity(body.GetLinearVelocity());
 
@@ -81,6 +82,17 @@ void p2World::Step(float dt)
 
 	// Quadtree
 	//m_QuadTree.Clear(); //TODO
+
+	for (int i = 0; i < m_BodyIndex; i++)
+	{
+		for (int j = i; j < m_BodyIndex; j++)
+		{
+			if (m_Bodies[i].GetColliderIndex() != 0 && m_Bodies[j].GetColliderIndex() != 0)
+			{
+				contact_manager.CheckAABBContact(m_Bodies[i], m_Bodies[j]);
+			}
+		}
+	}
 
 	for (int i = 0; i < m_Bodies.size(); i++)
 	{
@@ -103,3 +115,4 @@ void p2World::SetContactListener(p2ContactListener * contactListener)
 {
 	contact_manager = p2ContactManager(contactListener);
 }
+
