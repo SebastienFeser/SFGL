@@ -23,6 +23,7 @@ SOFTWARE.
 */
 #include <p2world.h>
 #include "p2quadtree.h"
+#include "../../utilities/json.hpp"
 
 
 p2World::p2World(p2Vec2 gravity): m_Gravity(gravity)
@@ -30,6 +31,10 @@ p2World::p2World(p2Vec2 gravity): m_Gravity(gravity)
 	this->m_Gravity = gravity;
 	//this->m_QuadTree = p2QuadTree();
 	m_Bodies.resize(MAX_BODY_LEN);
+	quadTreeAABB.topRight = screenSize;
+	quadTreeAABB.bottomLeft = p2Vec2(0,0);
+	quadTreeAABB.topLeft = p2Vec2(0, screenSize.y);
+	quadTreeAABB.bottomRight = p2Vec2(screenSize.y, 0);
 }
 
 void p2World::Step(float dt)
@@ -80,8 +85,20 @@ void p2World::Step(float dt)
 		//body.SetPosition(body.GetPosition() + body.GetLinearVelocity() * dt);		
 	}
 
-	// Quadtree
-	//m_QuadTree.Clear(); //TODO
+	//Quadtree
+		/*m_QuadTree.Clear();
+
+	for (int i = 0; i < m_BodyIndex; i++)
+	{
+		if (m_Bodies[i].GetColliderIndex() != 0)
+		{
+			m_QuadTree.Insert(&m_Bodies[i]);
+		}
+	}
+
+	m_QuadTree.Retrieve(contact_manager);*/
+
+	//m_QuadTree.Clear();
 
 	for (int i = 0; i < m_BodyIndex; i++)
 	{
@@ -94,10 +111,10 @@ void p2World::Step(float dt)
 		}
 	}
 
-	for (int i = 0; i < m_Bodies.size(); i++)
+	/*for (int i = 0; i < m_Bodies.size(); i++)
 	{
 		//m_QuadTree.Insert(m_Bodies[i]); //TODO: To correct & write code
-	}
+	}*/
 	//Retrieve
 
 	// Check for collision

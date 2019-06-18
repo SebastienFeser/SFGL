@@ -32,6 +32,7 @@ SOFTWARE.
 #include <extensions/collision_rect_rect.h>
 
 #include <tools/tools_pch.h>
+#include <extensions/quad_tree_test.h>
 
 
 namespace sfge::ext
@@ -57,6 +58,12 @@ void ExtendPython(py::module& m)
 	py::class_<CollisionRectRect, System> collisionRectRect(m, "CollisionSquareSquare");
 	collisionRectRect
 		.def(py::init<Engine&>());
+
+	py::class_<QuadTreeTest, System> quadTreeTest(m, "QuadTreeTest");
+	quadTreeTest
+		.def(py::init<Engine&>());
+
+
 	
 
 	tools::ExtendPythonTools(m);

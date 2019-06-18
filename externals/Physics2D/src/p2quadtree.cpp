@@ -1,5 +1,6 @@
 #include "..\include\p2quadtree.h"
 #include "SFML/Window/Keyboard.hpp"
+#include "p2contact.h"
 
 p2QuadTree::p2QuadTree(int nodeLevel, p2AABB bounds)
 {
@@ -17,20 +18,21 @@ p2QuadTree::~p2QuadTree()
 
 void p2QuadTree::Clear()
 {
-	for (p2QuadTree* quad : nodes)
-	{
-		//Delete Sub QuadTrees
-		quad->Clear(); 
 
-		//Delete Bodies in the QuadTree
-		for (p2Body* body : quad->m_Objects)
+
+		for (p2QuadTree* quad : nodes)
 		{
-			m_Objects.push_back(body);
+			//Delete Sub QuadTrees
+			quad->Clear();
+
+			//Delete Bodies in the QuadTree
+			for (p2Body* body : quad->m_Objects)
+			{
+				m_Objects.push_back(body);
+			}
+
+			delete(quad);
 		}
-
-		delete(quad);
-	}
-
 
 }
 
@@ -156,7 +158,7 @@ void p2QuadTree::Insert(p2Body * obj)
 
 }
 
-void p2QuadTree::Retrieve()			//Create a list of the lists of the objects that could collide
+void p2QuadTree::Retrieve(p2ContactManager contact_manager)			//Create a list of the lists of the objects that could collide
 {
 	if (nodes == nullptr)
 	{
@@ -164,18 +166,9 @@ void p2QuadTree::Retrieve()			//Create a list of the lists of the objects that c
 		{
 			for (int j = i; i < m_Objects.size(); i++)
 			{
-				//Check AABBCollision
+				contact_manager.CheckAABBContact(*m_Objects[i], *m_Objects[j]);
 			}
 		}
-
-		/*for (auto& element : m_Objects)
-		{
-			for (auto& element : m_Objects)
-			{
-				//Check AABB Collision
-			}
-			m_Objects.remove(element);
-		}*/
 	}
 	else
 	{

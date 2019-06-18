@@ -55,10 +55,15 @@ public:
 
 private:
 	p2Vec2 m_Gravity;
-	//p2QuadTree m_QuadTree;
 	std::vector<p2Body> m_Bodies;
 	int m_BodyIndex = 0;
 	p2ContactManager contact_manager;
+
+
+	const p2Vec2 screenSize = p2Vec2(13, 7.5);
+	p2AABB quadTreeAABB;
+
+	p2QuadTree m_QuadTree = p2QuadTree(0, quadTreeAABB);
 };
 
 #endif

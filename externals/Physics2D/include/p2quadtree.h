@@ -31,6 +31,8 @@ SOFTWARE.
 #include <p2aabb.h>
 #include <p2body.h>
 
+class p2ContactManager;
+
 /**
 * \brief Representation of a tree with 4 branches containing p2Body defined by their p2AABB
 */
@@ -60,7 +62,7 @@ public:
 	/**
 	* Return a list of all the p2Body that might collide
 	*/
-	void Retrieve();
+	void Retrieve(p2ContactManager contact_manager);
 
 	/**
 	 * Add an external gameObject to the m_ObjectList (used for the retrieve) 

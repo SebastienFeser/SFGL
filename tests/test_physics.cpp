@@ -626,31 +626,7 @@ TEST(Final, BodyGravity)
 	engine.Start();
 }
 
-TEST(FinalNotWorking, AABBContact)
-{
-	// 4 body with different gravity
-	sfge::Engine engine;
-	auto config = std::make_unique<sfge::Configuration>();
-	config->gravity = p2Vec2(0.0f, 0.0f);
-	engine.Init(std::move(config));
-
-	auto* sceneManager = engine.GetSceneManager();
-
-	json sceneJson;
-	sceneJson["name"] = "AABBContact";
-
-	sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
-	sceneJson["systems"] = json::array({
-			{
-				{"systemClassName", "ContactAABB"}
-			}
-		}
-	);
-	sceneManager->LoadSceneFromJson(sceneJson);
-	engine.Start();
-}
-
-TEST(FinalNotWorking, QuadTree)
+TEST(Final, QuadTree)
 {
 	// 4 body with different gravity
 	sfge::Engine engine;
@@ -663,7 +639,60 @@ TEST(FinalNotWorking, QuadTree)
 	json sceneJson;
 	sceneJson["name"] = "QuadTree";
 
-	sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
+	//Begin
+
+	const int entitiesNmb = 20;
+	json entities[entitiesNmb];
+
+	for (int i = 0; i < entitiesNmb; i++)
+	{
+		int sizeX = (rand() % 10) + 50;
+		int sizeY = (rand() % 10) + 50;
+		//int radius = (rand() % 75) + 50;
+		json shape =
+		{
+			
+			{"name", "Rect Shape Component"},
+			{"type", sfge::ComponentType::SHAPE2D},
+			{"shape_type", sfge::ShapeType::RECTANGLE},
+			{"size", {sizeX, sizeY}}
+			
+		};
+		json collider =
+		{
+			
+			{"name", "Rect Collider"},
+			{"type", sfge::ComponentType::COLLIDER2D},
+			{"collider_type", sfge::ColliderType::BOX},
+			{"size", {sizeX, sizeY}},
+			
+		};
+
+		json& entityJson = entities[i];
+
+		json transformJson =
+		{
+			{"position", {rand() % 800, rand() % 600}},
+			{"type", sfge::ComponentType::TRANSFORM2D},
+			//{"angle", rand() % 360}
+		};
+
+		json rigidbody =
+		{
+			{"name", "Rigidbody"},
+			{"type", sfge::ComponentType::BODY2D},
+			{"body_type", p2BodyType::KINEMATIC},
+			//{"velocity", {rand() % 200, rand() % 200}}
+		};
+
+		//int randShapeIndex = rand() % 2;
+		entityJson["components"] = { transformJson, shape, rigidbody, collider };
+	}
+	sceneJson["entities"] = entities;
+
+	//End
+
+	//sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
 	sceneJson["systems"] = json::array({
 			{
 				{"systemClassName", "QuadTreeTest"}
@@ -674,75 +703,4 @@ TEST(FinalNotWorking, QuadTree)
 	engine.Start();
 }
 
-TEST(FinalNotWorking, CollisionDetection)
-{
-	// 4 body with different gravity
-	sfge::Engine engine;
-	auto config = std::make_unique<sfge::Configuration>();
-	config->gravity = p2Vec2(0.0f, 0.0f);
-	engine.Init(std::move(config));
-
-	auto* sceneManager = engine.GetSceneManager();
-
-	json sceneJson;
-	sceneJson["name"] = "CollisionDetection";
-
-	sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
-	sceneJson["systems"] = json::array({
-			{
-				{"systemClassName", "ContactCirclesTest"}
-			}
-		}
-	);
-	sceneManager->LoadSceneFromJson(sceneJson);
-	engine.Start();
-}
-
-TEST(FinalNotWorking, CollisionCirclePlan)
-{
-	// 4 body with different gravity
-	sfge::Engine engine;
-	auto config = std::make_unique<sfge::Configuration>();
-	config->gravity = p2Vec2(0.0f, 0.0f);
-	engine.Init(std::move(config));
-
-	auto* sceneManager = engine.GetSceneManager();
-
-	json sceneJson;
-	sceneJson["name"] = "CollisionCirclePlan";
-
-	sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
-	sceneJson["systems"] = json::array({
-			{
-				{"systemClassName", "BallFallingTest"}
-			}
-		}
-	);
-	sceneManager->LoadSceneFromJson(sceneJson);
-	engine.Start();
-}
-
-TEST(FinalNotWorking, CollisionCircleCircle)
-{
-	// 4 body with different gravity
-	sfge::Engine engine;
-	auto config = std::make_unique<sfge::Configuration>();
-	config->gravity = p2Vec2(0.0f, 0.0f);
-	engine.Init(std::move(config));
-
-	auto* sceneManager = engine.GetSceneManager();
-
-	json sceneJson;
-	sceneJson["name"] = "CollisionCircleCircle";
-
-	sceneJson["entities"] = { /*entityBody1, entityBody2*/ };
-	sceneJson["systems"] = json::array({
-			{
-				{"systemClassName", "CollisionCircleTest"}
-			}
-		}
-	);
-	sceneManager->LoadSceneFromJson(sceneJson);
-	engine.Start();
-}
 
