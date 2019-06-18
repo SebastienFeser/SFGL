@@ -338,7 +338,7 @@ void p2ContactManager::CollisionCorrectionRectRect(p2Body& bodyA, p2Body& bodyB,
 	//Calculate addition of the two x size
 	float halfSizeAdditionX = (sizeBodyA.x / 2) + (sizeBodyB.x / 2);
 	//Find MTV
-	float XMTV = halfSizeAdditionX - distCentCentX;
+	float XMTV = halfSizeAdditionX - abs(distCentCentX);
 
 
 	//Find Y axis MTV
@@ -347,13 +347,19 @@ void p2ContactManager::CollisionCorrectionRectRect(p2Body& bodyA, p2Body& bodyB,
 	//Calculate addition of the two x size
 	float halfSizeAdditionY = (sizeBodyA.y / 2) + (sizeBodyB.y / 2);
 	//Find MTV
-	float YMTV = halfSizeAdditionY - distCentCentY ;
+	float YMTV = halfSizeAdditionY - abs(distCentCentY) ;
 
 
 	if (XMTV < YMTV && !isInContact)
 	{
-		bodyA.SetPosition(bodyA.GetPosition() - axisX * (XMTV / 2));
-		bodyB.SetPosition(bodyB.GetPosition() + axisX * (XMTV / 2));
+		bodyA.SetPosition(bodyA.GetPosition() - axisX * (XMTV /2));
+		bodyB.SetPosition(bodyB.GetPosition() + axisX * (XMTV /2));
+
+		bodyA.SetLinearVelocity(bodyA.GetLinearVelocity() - axisX.Normalized() * 2 * (p2Vec2::Dot(bodyA.GetLinearVelocity(), axisX.Normalized())));
+		bodyB.SetLinearVelocity(bodyB.GetLinearVelocity() - axisX.Normalized() * 2 * (p2Vec2::Dot(bodyB.GetLinearVelocity(), axisX.Normalized())));
+
+		//bodyA.SetLinearVelocity(axisX.Normalized() * p2Vec2::Dot(bodyA.GetLinearVelocity(), axisX.Normalized()) / p2Vec2::Dot(axisX, axisX));
+		//bodyB.SetLinearVelocity(axisX.Normalized() * p2Vec2::Dot(bodyB.GetLinearVelocity(), axisX.Normalized()) / p2Vec2::Dot(axisX, axisX));
 
 		//bodyA.SetLinearVelocity(p2Vec2(-bodyA.GetLinearVelocity().x, bodyA.GetLinearVelocity().y));
 		//bodyB.SetLinearVelocity(p2Vec2(-bodyB.GetLinearVelocity().x, bodyB.GetLinearVelocity().y));
@@ -362,8 +368,15 @@ void p2ContactManager::CollisionCorrectionRectRect(p2Body& bodyA, p2Body& bodyB,
 	}
 	else if (YMTV < XMTV && !isInContact)
 	{
-		bodyA.SetPosition(bodyA.GetPosition() + axisY * (YMTV / 2));
-		bodyB.SetPosition(bodyB.GetPosition() - axisY * (YMTV / 2));
+		bodyA.SetPosition(bodyA.GetPosition() + axisY * (YMTV /2));
+		bodyB.SetPosition(bodyB.GetPosition() - axisY * (YMTV /2));
+
+		bodyA.SetLinearVelocity(bodyA.GetLinearVelocity() - axisY.Normalized() * 2 * (p2Vec2::Dot(bodyA.GetLinearVelocity(), axisY.Normalized())));
+		bodyB.SetLinearVelocity(bodyB.GetLinearVelocity() - axisY.Normalized() * 2 * (p2Vec2::Dot(bodyB.GetLinearVelocity(), axisY.Normalized())));
+
+
+		//bodyA.SetLinearVelocity(axisY.Normalized() * p2Vec2::Dot(bodyA.GetLinearVelocity(), axisY.Normalized()) / p2Vec2::Dot(axisY, axisY));
+		//bodyB.SetLinearVelocity(axisY.Normalized() * p2Vec2::Dot(bodyB.GetLinearVelocity(), axisY.Normalized()) / p2Vec2::Dot(axisY, axisY));
 
 		//bodyA.SetLinearVelocity(p2Vec2(bodyA.GetLinearVelocity().x, -bodyA.GetLinearVelocity().y));
 		//bodyB.SetLinearVelocity(p2Vec2(bodyB.GetLinearVelocity().x, -bodyB.GetLinearVelocity().y));
@@ -374,11 +387,11 @@ void p2ContactManager::CollisionCorrectionRectRect(p2Body& bodyA, p2Body& bodyB,
 	this->isInContact = true;
 
 
-	p2Vec2 bodyASpeed = ((bodyB.GetLinearVelocity() - bodyA.GetLinearVelocity()) + bodyA.GetLinearVelocity() + bodyB.GetLinearVelocity()) / 2;
-	p2Vec2 bodyBSpeed = ((bodyA.GetLinearVelocity() - bodyB.GetLinearVelocity()) + bodyA.GetLinearVelocity() + bodyB.GetLinearVelocity()) / 2;
+	//p2Vec2 bodyASpeed = ((bodyB.GetLinearVelocity() - bodyA.GetLinearVelocity()) + bodyA.GetLinearVelocity() + bodyB.GetLinearVelocity()) / 2;
+	//p2Vec2 bodyBSpeed = ((bodyA.GetLinearVelocity() - bodyB.GetLinearVelocity()) + bodyA.GetLinearVelocity() + bodyB.GetLinearVelocity()) / 2;
 
-	bodyA.SetLinearVelocity(bodyASpeed);
-	bodyB.SetLinearVelocity(bodyBSpeed);
+	//bodyA.SetLinearVelocity(bodyASpeed);
+	//bodyB.SetLinearVelocity(bodyBSpeed);
 
 	//bodyA.SetLinearVelocity(p2Vec2(0, 0));
 	//bodyB.SetLinearVelocity(p2Vec2(0, 0));
